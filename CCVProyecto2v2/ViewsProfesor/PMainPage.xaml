@@ -104,7 +104,7 @@
                                     <Label 
                                         Grid.Row="5" 
                                         Grid.Column="0" 
-                                        Text="Grado:" 
+                                        Text="Materia:" 
                                         FontAttributes="Bold" />
                                     <Label 
                                         Grid.Row="5" 
