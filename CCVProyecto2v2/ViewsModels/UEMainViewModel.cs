@@ -29,7 +29,7 @@ namespace CCVProyecto2v2.ViewsModels
                 await ObtenerClases();
                 await ObtenerClasesParaPicker();
             });
-            WeakReferenceMessenger.Default.Register<CMensajeria>(this, (r, m) =>
+            WeakReferenceMessenger.Default.Register<UMensajeria>(this, (r, m) =>
             {
                 ClaseMensajeRecibido(m.Value);
             });
@@ -94,32 +94,43 @@ namespace CCVProyecto2v2.ViewsModels
 
 
         }
-        private void ClaseMensajeRecibido(CCuerpo claseCuerpo)
+        private void ClaseMensajeRecibido(UCuerpo claseCuerpo)
         {
-            var claseDto = claseCuerpo.ClaseDto;
+            var claseDto = claseCuerpo.ClaseEstudianteDto;
+
+            if (claseDto == null)
+            {
+                Debug.WriteLine("El objeto ClaseEstudianteDto es nulo.");
+                return;
+            }
 
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 if (claseCuerpo.EsCrear)
                 {
-                    ListaClases.Add(claseDto);
+                    ListaClaseEstudiantes.Add(claseDto);
                 }
                 else
                 {
-                    var encontrada = ListaClases.FirstOrDefault(c => c.Id == claseDto.Id);
+                    var encontrada = ListaClaseEstudiantes.FirstOrDefault(c => c.ClaseId == claseDto.ClaseId);
                     if (encontrada != null)
                     {
-                        encontrada.Nombre = claseDto.Nombre;
-                        encontrada.ProfesorId = claseDto.ProfesorId;
-                        encontrada.Profesor = claseDto.Profesor;
+                        encontrada.Clase.Nombre = claseDto.Clase.Nombre;
+                        encontrada.Clase.ProfesorId = claseDto.Clase.ProfesorId;
+                        encontrada.Clase.Profesor = claseDto.Clase.Profesor;
 
-                        OnPropertyChanged(nameof(ListaClases)); 
+                        OnPropertyChanged(nameof(ListaClaseEstudiantes));
+                    }
+                    else
+                    {
+                        Debug.WriteLine("No se encontró la clase para actualizar.");
                     }
                 }
             });
         }
 
-        
+
+
 
         [RelayCommand]
         private async Task Crear()
@@ -138,19 +149,33 @@ namespace CCVProyecto2v2.ViewsModels
         [RelayCommand]
         private async Task Eliminar(ClaseEstudianteDto claseDto)
         {
-            bool anwser = await Shell.Current.DisplayAlert("Mensaje", "¿Desea eliminar esta clase?", "Sí", "No");
-            if (anwser)
+            try
             {
-                var encontrada = await _dbContext.ClaseEstudiantes.FirstOrDefaultAsync(c => c.Id == claseDto.Id);
-                if (encontrada != null)
+                bool anwser = await Shell.Current.DisplayAlert("Mensaje", "¿Desea eliminar esta clase?", "Sí", "No");
+                if (anwser)
                 {
-                    _dbContext.ClaseEstudiantes.Remove(encontrada);
-                    await _dbContext.SaveChangesAsync();
+                    var encontrada = await _dbContext.ClaseEstudiantes
+                        .FirstOrDefaultAsync(c => c.ClaseId == claseDto.ClaseId && c.EstudianteId == claseDto.EstudianteId);
 
-                    ListaClaseEstudiantes.Remove(claseDto);
+                    if (encontrada != null)
+                    {
+                        _dbContext.ClaseEstudiantes.Remove(encontrada);
+                        await _dbContext.SaveChangesAsync();
+                        ListaClaseEstudiantes.Remove(claseDto);
+                    }
+                    else
+                    {
+                        await Shell.Current.DisplayAlert("Error", "No se pudo encontrar la clase para eliminar.", "OK");
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error al eliminar la clase: {ex.Message}");
+                await Shell.Current.DisplayAlert("Error", "Ocurrió un error al intentar eliminar la clase.", "OK");
+            }
         }
+
 
         [RelayCommand]
         public async Task Guardar(ClaseEstudianteDto claseEstudianteDto)
