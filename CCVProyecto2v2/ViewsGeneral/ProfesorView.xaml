@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CCVProyecto2v2.ViewsGeneral.ProfesorView"
-             Title="Profesor - Actividades">
+             x:Class="CCVProyecto2v2.ViewsGeneral.ProfesorView">
     <ScrollView>
         <VerticalStackLayout Padding="10" BackgroundColor="#e6e2dc">
 
@@ -21,34 +20,46 @@
             <CollectionView x:Name="ActividadesCollection" SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="10" BackgroundColor="#f7f7f7" Margin="5">
+                        <Grid Padding="10" Margin="5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <VerticalStackLayout Grid.Column="0">
-                                <Label Text="{Binding Titulo}" 
-                                       FontSize="18" 
-                                       FontAttributes="Bold" 
-                                       TextColor="Black" />
-                                <Label Text="{Binding Descripcion}" 
-                                       FontSize="14" 
-                                       TextColor="Gray" />
-                                <Label Text="{Binding FechaEntrega, StringFormat='Fecha de Entrega: {0:dd/MM/yyyy}'}" 
-                                       FontSize="12" 
-                                       TextColor="#444" />
-                            </VerticalStackLayout>
-                            <StackLayout Grid.Column="1" Orientation="Horizontal" Spacing="5">
+                            <Frame BackgroundColor="Transparent" 
+                                   BorderColor="Black" 
+                                   CornerRadius="0" 
+                                   Padding="10" 
+                                   HasShadow="False">
+                                <VerticalStackLayout Grid.Column="0" BackgroundColor="Transparent">
+                                    <Label Text="{Binding Titulo}" 
+                                           FontSize="18" 
+                                           FontAttributes="Bold" 
+                                           TextColor="Black" />
+                                    <Label Text="{Binding Descripcion}" 
+                                           FontSize="14" 
+                                           TextColor="Gray" />
+                                    <Label Text="{Binding FechaEntrega, StringFormat='Fecha de Entrega: {0:dd/MM/yyyy}'}" 
+                                           FontSize="12" 
+                                           TextColor="#444" />
+                                </VerticalStackLayout>
+                            </Frame>
+                            <StackLayout Grid.Column="1" Orientation="Horizontal"  >
                                 <Button Text="Editar" 
-                                        BackgroundColor="Orange" 
+                                        BackgroundColor="Black" 
                                         TextColor="White" 
                                         Clicked="EditarActividad_Clicked" 
-                                        CommandParameter="{Binding Id}" />
+                                        CommandParameter="{Binding Id}"
+                                        WidthRequest="100" 
+                                        HeightRequest="40"
+                                        Margin="20"/>
                                 <Button Text="Eliminar" 
-                                        BackgroundColor="Red" 
+                                        BackgroundColor="Black" 
                                         TextColor="White" 
                                         Clicked="EliminarActividad_Clicked" 
-                                        CommandParameter="{Binding Id}" />
+                                        CommandParameter="{Binding Id}" 
+                                        WidthRequest="100" 
+                                        HeightRequest="40"
+                                        Margin="10"/>
                             </StackLayout>
                         </Grid>
                     </DataTemplate>
