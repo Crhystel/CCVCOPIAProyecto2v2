@@ -12,8 +12,8 @@
             <Grid ColumnDefinitions="50,*,10"
                 VerticalOptions="CenterAndExpand">
                 <Image Source="{Binding FlyoutIcon}"
-                       HeightRequest="60"
-                       WidthRequest="60"
+                       HeightRequest="25"
+                       WidthRequest="25"
                        HorizontalOptions="Start"       
                        />
                 <Label Grid.Column="1"
@@ -27,11 +27,11 @@
         </DataTemplate>
     </Shell.ItemTemplate>
 
-    <FlyoutItem Title="Inicio"  >
-        <ShellContent ContentTemplate="{DataTemplate local:InicioView}" Route="InicioView" Icon="iconhome.png" />
+    <FlyoutItem Title="Inicio" FlyoutIcon="iconhome.png">
+        <ShellContent ContentTemplate="{DataTemplate local:InicioView}" Route="InicioView"  />
     </FlyoutItem>
 
-    <FlyoutItem Title="Soporte" >
-        <ShellContent ContentTemplate="{DataTemplate local:SoporteView}" Route="SoporteView" Icon="iconsoporte.png"/>
+    <FlyoutItem Title="Soporte" FlyoutIcon="iconsoporte.png">
+        <ShellContent ContentTemplate="{DataTemplate local:SoporteView}" Route="SoporteView" />
     </FlyoutItem>
 </Shell>

@@ -26,6 +26,7 @@
             <Label Text="Materia"/>
             <Picker ItemsSource="{Binding MateriasDisponibles}" 
                     SelectedItem="{Binding ProfesorDto.Materia}"
+                    ItemDisplayBinding="{Binding .}"
                     TextColor="White"
                     BackgroundColor="Black"
                     FontFamily="TheStudentsTeacherFont"
