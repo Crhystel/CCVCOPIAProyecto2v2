@@ -36,19 +36,19 @@ public partial class ProfesorView : ContentPage
             {
                 try
                 {
-                    // Leer las actividades existentes
+                   
                     var actividades = JsonConvert.DeserializeObject<List<Models.Actividad>>(File.ReadAllText(path)) ?? new List<Models.Actividad>();
 
-                    // Eliminar la actividad seleccionada
+                    
                     var actividadEliminar = actividades.FirstOrDefault(a => a.Id == actividadId);
                     if (actividadEliminar != null)
                     {
                         actividades.Remove(actividadEliminar);
 
-                        // Guardar la lista actualizada
+                        
                         File.WriteAllText(path, JsonConvert.SerializeObject(actividades));
 
-                        // Recargar la lista en la vista
+                        
                         CargarActividades();
 
                         DisplayAlert("Éxito", "Actividad eliminada correctamente", "OK");
