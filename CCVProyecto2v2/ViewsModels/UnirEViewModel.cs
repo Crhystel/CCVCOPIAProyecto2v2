@@ -108,47 +108,49 @@ namespace CCVProyecto2v2.ViewsModels
         [RelayCommand]
         public async Task GuardarMultiple()
         {
-            
-            await Task.Run(async () =>
+            try
             {
                 LoadingClaseEstudiante = true;
-                UCuerpo mensaje= new UCuerpo();
-                await Task.Run(async () =>
-                {
-                    if (ClaseEstudianteDto.ClaseId == 0)
-                    {
-                        await Shell.Current.DisplayAlert("Error", "Selecciona una clase válida.", "OK");
-                        return;
-                    }
-                    foreach (var estudiante in EstudiantesSeleccionados.Where(c => c.IsSelected))
-                    {
-                        var nuevaClaseEstudiante = new ClaseEstudiante
-                        {
-                            EstudianteId = estudiante.Id,
-                            ClaseId = ClaseEstudianteDto.ClaseId
-                        };
 
-                        _dbContext.ClaseEstudiantes.Add(nuevaClaseEstudiante);
-                        await _dbContext.SaveChangesAsync();
-                        await CargarClases();
-                        await CargarDatos();
-                    }
-                    mensaje = new UCuerpo
+                if (ClaseEstudianteDto.ClaseId == 0)
+                {
+                    await Shell.Current.DisplayAlert("Error", "Selecciona una clase válida.", "OK");
+                    return;
+                }
+
+                foreach (var estudiante in EstudiantesSeleccionados.Where(c => c.IsSelected))
+                {
+                    var nuevaClaseEstudiante = new ClaseEstudiante
                     {
-                        EsCrear = true,
-                        ClaseEstudianteDto = ClaseEstudianteDto
+                        EstudianteId = estudiante.Id,
+                        ClaseId = ClaseEstudianteDto.ClaseId
                     };
 
-                    MainThread.BeginInvokeOnMainThread(() =>
-                    {
-                        LoadingClaseEstudiante = false;
-                        WeakReferenceMessenger.Default.Send(new UMensajeria(mensaje));
-                        Shell.Current.Navigation.PopAsync();
-                    });
-                });
-                
-            });
+                    _dbContext.ClaseEstudiantes.Add(nuevaClaseEstudiante);
+                }
+
+                await _dbContext.SaveChangesAsync();
+                await CargarClases();
+                await CargarDatos();
+
+                WeakReferenceMessenger.Default.Send(new UMensajeria(new UCuerpo
+                {
+                    EsCrear = true,
+                    ClaseEstudianteDto = ClaseEstudianteDto
+                }));
+
+                await Shell.Current.Navigation.PopAsync();
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+            }
+            finally
+            {
+                LoadingClaseEstudiante = false;
+            }
         }
+
 
 
         public async Task CargarClases()
