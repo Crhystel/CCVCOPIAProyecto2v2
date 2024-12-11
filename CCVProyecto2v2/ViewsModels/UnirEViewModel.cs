@@ -1,5 +1,5 @@
 ﻿
-using Android.Content;
+
 using CCVProyecto2v2.DataAccess;
 using CCVProyecto2v2.Dto;
 using CCVProyecto2v2.Models;
@@ -41,11 +41,14 @@ namespace CCVProyecto2v2.ViewsModels
         public UnirEViewModel(DbbContext context)
         {
             _dbContext = context;
+
             MainThread.BeginInvokeOnMainThread(async () =>
             {
                 await CargarDatos();
                 await CargarClases();
                 await CargarEstudiantesPorClase();
+                await CrearClaseEstudiante();
+                CargarListaClaseEstudiantes();
             });
             WeakReferenceMessenger.Default.Register<EMensajeria>(this, (r, m) =>
             {
@@ -101,64 +104,6 @@ namespace CCVProyecto2v2.ViewsModels
             }
         }
 
-        //[RelayCommand]
-        //public async Task Guardar()
-        //{
-        //    LoadingClaseEstudiante = true;
-        //    var mensaje = new Cuerpo();
-
-        //    await Task.Run(async () =>
-        //    {
-        //        if (IdClaseEstudiante == 0)
-        //        {
-        //            var nuevaClaseEstudiante = new ClaseEstudiante
-        //            {
-        //                EstudianteId = ClaseEstudianteDto.EstudianteId,
-        //                ClaseId = ClaseEstudianteDto.ClaseId
-        //            };
-
-        //            _dbContext.ClaseEstudiantes.Add(nuevaClaseEstudiante);
-        //            await _dbContext.SaveChangesAsync();
-
-        //            ClaseEstudianteDto.Id = nuevaClaseEstudiante.Id;
-
-        //            mensaje = new Cuerpo
-        //            {
-        //                EsCrear = true,
-        //                ClaseEstudianteDto = ClaseEstudianteDto
-        //            };
-        //        }
-        //        else
-        //        {
-        //            var encontrado = await _dbContext.ClaseEstudiantes
-        //                .FirstOrDefaultAsync(c => c.Id == IdClaseEstudiante);
-
-        //            if (encontrado != null)
-        //            {
-        //                encontrado.EstudianteId = ClaseEstudianteDto.EstudianteId;
-        //                encontrado.ClaseId = ClaseEstudianteDto.ClaseId;
-
-        //                await _dbContext.SaveChangesAsync();
-
-        //                mensaje = new Cuerpo
-        //                {
-        //                    EsCrear = false,
-        //                    ClaseEstudianteDto = ClaseEstudianteDto
-        //                };
-        //            }
-        //        }
-
-        //        MainThread.BeginInvokeOnMainThread(() =>
-        //        {
-        //            LoadingClaseEstudiante = false;
-        //            WeakReferenceMessenger.Default.Send(new Mensajeria(mensaje));
-        //            Shell.Current.Navigation.PopAsync();
-        //        });
-        //    });
-                
-            
-            
-        //}
 
         [RelayCommand]
         public async Task GuardarMultiple()
@@ -185,6 +130,8 @@ namespace CCVProyecto2v2.ViewsModels
 
                         _dbContext.ClaseEstudiantes.Add(nuevaClaseEstudiante);
                         await _dbContext.SaveChangesAsync();
+                        await CargarClases();
+                        await CargarDatos();
                     }
                     mensaje = new UCuerpo
                     {
@@ -276,10 +223,12 @@ namespace CCVProyecto2v2.ViewsModels
                 if (mensaje.EsCrear)
                 {
                     await CargarClases();
+                    await CargarDatos();
                 }
             });
         }
-        public async Task CrearClaseEstudianteAsync()
+        [RelayCommand]
+        public async Task CrearClaseEstudiante()
         {
             if (ClaseEstudianteDto != null && ClaseEstudianteDto.ClaseId > 0 && ClaseEstudianteDto.EstudianteId > 0)
             {
@@ -298,7 +247,6 @@ namespace CCVProyecto2v2.ViewsModels
                         });
                         await _dbContext.SaveChangesAsync();
 
-                        CargarListaClaseEstudiantes();
                     }
                     else
                     {

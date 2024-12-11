@@ -14,11 +14,9 @@ public partial class UnirEstudianteView : ContentPage
     }
     private void OnClaseSelected(object sender, EventArgs e)
     {
-        var picker = sender as Picker;
-        if (picker?.SelectedItem is ClaseDto claseSeleccionada)
+        if (sender is Picker picker && picker.SelectedItem is ClaseDto claseSeleccionada)
         {
-            var viewModel = BindingContext as UnirEViewModel;
-            if (viewModel != null)
+            if (BindingContext is UnirEViewModel viewModel)
             {
                 viewModel.ClaseEstudianteDto.ClaseId = claseSeleccionada.Id;
             }
@@ -27,11 +25,9 @@ public partial class UnirEstudianteView : ContentPage
 
     private void OnEstudianteSelected(object sender, EventArgs e)
     {
-        var picker = sender as Picker;
-        if (picker != null && picker.SelectedItem is EstudianteDto estudianteSeleccionado)
+        if (sender is Picker picker && picker.SelectedItem is EstudianteDto estudianteSeleccionado)
         {
-            var viewModel = BindingContext as UnirEViewModel;
-            if (viewModel != null)
+            if (BindingContext is UnirEViewModel viewModel)
             {
                 viewModel.ClaseEstudianteDto.EstudianteId = estudianteSeleccionado.Id;
             }
