@@ -38,13 +38,18 @@
                                        FontSize="12" 
                                        TextColor="#444" />
                             </VerticalStackLayout>
-                            <Button Text="Eliminar" 
-                                    BackgroundColor="Red" 
-                                    TextColor="White" 
-                                    Grid.Column="1" 
-                                    Padding="5" 
-                                    Clicked="EliminarActividad_Clicked" 
-                                    CommandParameter="{Binding Id}" />
+                            <StackLayout Grid.Column="1" Orientation="Horizontal" Spacing="5">
+                                <Button Text="Editar" 
+                                        BackgroundColor="Orange" 
+                                        TextColor="White" 
+                                        Clicked="EditarActividad_Clicked" 
+                                        CommandParameter="{Binding Id}" />
+                                <Button Text="Eliminar" 
+                                        BackgroundColor="Red" 
+                                        TextColor="White" 
+                                        Clicked="EliminarActividad_Clicked" 
+                                        CommandParameter="{Binding Id}" />
+                            </StackLayout>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
