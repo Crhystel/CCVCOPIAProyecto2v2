@@ -4,9 +4,9 @@
              x:Class="CCVProyecto2v2.ViewsAdmin.UnirEstudianteView">
     <ContentPage.Content>
         <StackLayout Padding="10">
-            <Picker Title="Seleccione una Clase" ItemsSource="{Binding ClasesDisponibles}" 
+            <Picker Title="Seleccione una Clase" TextColor ="Black" TitleColor="Black" FontSize="16" FontFamily="TheStudentsTeacherFont" ItemsSource="{Binding ClasesDisponibles} " 
                     SelectedIndexChanged="OnClaseSelected" ItemDisplayBinding="{Binding Nombre}"/>
-            <Picker Title="Seleccione un Estudiante" ItemsSource="{Binding EstudiantesSeleccionados}" 
+            <Picker Title="Seleccione un Estudiante" FontSize="16" TextColor ="Black" TitleColor="Black" FontFamily="TheStudentsTeacherFont" ItemsSource="{Binding EstudiantesSeleccionados}" 
                     SelectedIndexChanged="OnEstudianteSelected" ItemDisplayBinding="{Binding Nombre}" />
 
             <Button Text="Unir"
@@ -14,8 +14,6 @@
                     TextColor="White"
                     Command="{Binding CrearClaseEstudianteCommand}"
                     Margin="0,0,0,10" />
-
-           
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
