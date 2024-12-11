@@ -9,43 +9,40 @@ public partial class LoginView : ContentPage
     {
         InitializeComponent();
     }
-    private async void Ingresar_Clicked(object sender, EventArgs e)
+    /*private async void Ingresar_Clicked(object sender, EventArgs e)
     {
         string usuario = UsuarioEntry.Text;
         string contrasenia = ContraseniaEntry.Text;
 
+        // Buscar usuario autenticado primero
+        var usuarioAutenticado = await AutenticarUsuarioAsync(usuario, contrasenia);
 
-        if (usuario == "admin" && contrasenia == "admin")
+        if (usuarioAutenticado != null)
         {
+            switch (usuarioAutenticado.Rol)
+            {
+                case RolEnum.Administrador:
+                    await Navigation.PushAsync(new AdministradorView());
+                    break;
+                case RolEnum.Profesor:
+                    await Navigation.PushAsync(new ProfesorView());
+                    break;
+                case RolEnum.Estudiante:
+                    await Navigation.PushAsync(new EstudianteView());
+                    break;
+            }
+        }
+        else if (usuario == "admin" && contrasenia == "admin")
+        {
+            // Esto es redundante porque ya está en la lista
             await Navigation.PushAsync(new AdministradorView());
         }
         else
         {
-
-            var usuarioAutenticado = await AutenticarUsuarioAsync(usuario, contrasenia);
-
-            if (usuarioAutenticado != null)
-            {
-
-                switch (usuarioAutenticado.Rol)
-                {
-                    case RolEnum.Administrador:
-                        await Navigation.PushAsync(new AdministradorView());
-                        break;
-                    case RolEnum.Profesor:
-                        await Navigation.PushAsync(new ProfesorView());
-                        break;
-                    case RolEnum.Estudiante:
-                        await Navigation.PushAsync(new EstudianteView());
-                        break;
-                }
-            }
-            else
-            {
-                await DisplayAlert("Error", "Usuario o contraseña incorrectos", "OK");
-            }
+            await DisplayAlert("Error", "Usuario o contraseña incorrectos", "OK");
         }
     }
+
 
 
     private async Task<Usuario> AutenticarUsuarioAsync(string nombreUsuario, string contrasenia)
@@ -59,5 +56,31 @@ public partial class LoginView : ContentPage
     };
 
         return usuarios.FirstOrDefault(u => u.NombreUsuario == nombreUsuario && u.Contrasenia == contrasenia);
+    }*/
+
+
+    private async void Ingresar_Clicked(object sender, EventArgs e)
+    {
+        string usuario = UsuarioEntry.Text;
+        string contrasenia = ContraseniaEntry.Text;
+
+        // Verificar credenciales quemadas
+        if (usuario == "profesor1" && contrasenia == "1234")
+        {
+            await Navigation.PushAsync(new ProfesorView());
+        }
+        else if (usuario == "estudiante1" && contrasenia == "1234")
+        {
+            await Navigation.PushAsync(new EstudianteView());
+        }
+        else if (usuario == "admin" && contrasenia == "admin")
+        {
+            await Navigation.PushAsync(new AdministradorView());
+        }
+        else
+        {
+            await DisplayAlert("Error", "Usuario o contraseña incorrectos", "OK");
+        }
     }
+
 }
