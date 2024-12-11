@@ -2,6 +2,10 @@ namespace CCVProyecto2v2.ViewsGeneral;
 
 public partial class SoporteView : ContentPage
 {
+    public SoporteView()
+    {
+        InitializeComponent();
+    }
     private async void OnWhatsAppTapped(object sender, EventArgs e)
     {
         string telefono = "593969716019";

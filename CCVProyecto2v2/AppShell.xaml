@@ -13,9 +13,7 @@
     </FlyoutItem>
     <FlyoutItem Title="Soporte">
         <ShellContent
-    
     ContentTemplate="{DataTemplate local:SoporteView}"
     Route="SoporteView" />
     </FlyoutItem>
-
 </Shell>
