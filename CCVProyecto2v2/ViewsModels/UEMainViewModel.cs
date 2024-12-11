@@ -151,30 +151,42 @@ namespace CCVProyecto2v2.ViewsModels
         {
             try
             {
-                bool anwser = await Shell.Current.DisplayAlert("Mensaje", "¿Desea eliminar esta clase?", "Sí", "No");
+                bool anwser = await Shell.Current.DisplayAlert("Mensaje", "¿Desea eliminar esta clase junto con los estudiantes relacionados?", "Sí", "No");
                 if (anwser)
                 {
-                    var encontrada = await _dbContext.ClaseEstudiantes
-                        .FirstOrDefaultAsync(c => c.ClaseId == claseDto.ClaseId && c.EstudianteId == claseDto.EstudianteId);
+                    var relacionados = await _dbContext.ClaseEstudiantes
+                        .Where(c => c.ClaseId == claseDto.ClaseId)
+                        .ToListAsync();
 
-                    if (encontrada != null)
+                    if (relacionados.Any())
                     {
-                        _dbContext.ClaseEstudiantes.Remove(encontrada);
+                        _dbContext.ClaseEstudiantes.RemoveRange(relacionados);
+
                         await _dbContext.SaveChangesAsync();
-                        ListaClaseEstudiantes.Remove(claseDto);
+
+                        var elementosAEliminar = ListaClaseEstudiantes
+                            .Where(c => c.ClaseId == claseDto.ClaseId)
+                            .ToList();
+
+                        foreach (var elemento in elementosAEliminar)
+                        {
+                            ListaClaseEstudiantes.Remove(elemento);
+                        }
                     }
                     else
                     {
-                        await Shell.Current.DisplayAlert("Error", "No se pudo encontrar la clase para eliminar.", "OK");
+                        await Shell.Current.DisplayAlert("Error", "No se encontraron registros relacionados para eliminar.", "OK");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error al eliminar la clase: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", "Ocurrió un error al intentar eliminar la clase.", "OK");
+                Debug.WriteLine($"Error al eliminar la clase y los estudiantes relacionados: {ex.Message}");
+                await Shell.Current.DisplayAlert("Error", "Ocurrió un error al intentar eliminar los datos.", "OK");
             }
         }
+
+        
 
 
         [RelayCommand]
@@ -193,7 +205,7 @@ namespace CCVProyecto2v2.ViewsModels
 
                 claseEstudianteDto.Id = nuevaClaseEstudiante.Id;
                 var mensaje = new UCuerpo { EsCrear = true, ClaseEstudianteDto = claseEstudianteDto };
-                WeakReferenceMessenger.Default.Send(new EMensajeria(new ECuerpo { EsCrear = true }));
+                WeakReferenceMessenger.Default.Send(new UMensajeria(new UCuerpo { EsCrear = true }));
 
             }
             await ObtenerClases();

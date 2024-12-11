@@ -18,7 +18,6 @@ namespace CCVProyecto2v2.Dto
         public string nombre;
         [ObservableProperty]
         public RolEnum rol;
-
         [ObservableProperty]
         public string nombreUsuario;
         [ObservableProperty]

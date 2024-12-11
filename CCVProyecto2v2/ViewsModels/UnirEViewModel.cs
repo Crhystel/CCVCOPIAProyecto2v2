@@ -1,4 +1,5 @@
 ﻿
+
 using CCVProyecto2v2.DataAccess;
 using CCVProyecto2v2.Dto;
 using CCVProyecto2v2.Models;
@@ -40,11 +41,14 @@ namespace CCVProyecto2v2.ViewsModels
         public UnirEViewModel(DbbContext context)
         {
             _dbContext = context;
+
             MainThread.BeginInvokeOnMainThread(async () =>
             {
                 await CargarDatos();
                 await CargarClases();
                 await CargarEstudiantesPorClase();
+                await CrearClaseEstudiante();
+                CargarListaClaseEstudiantes();
             });
             WeakReferenceMessenger.Default.Register<EMensajeria>(this, (r, m) =>
             {
@@ -100,107 +104,53 @@ namespace CCVProyecto2v2.ViewsModels
             }
         }
 
-        //[RelayCommand]
-        //public async Task Guardar()
-        //{
-        //    LoadingClaseEstudiante = true;
-        //    var mensaje = new Cuerpo();
-
-        //    await Task.Run(async () =>
-        //    {
-        //        if (IdClaseEstudiante == 0)
-        //        {
-        //            var nuevaClaseEstudiante = new ClaseEstudiante
-        //            {
-        //                EstudianteId = ClaseEstudianteDto.EstudianteId,
-        //                ClaseId = ClaseEstudianteDto.ClaseId
-        //            };
-
-        //            _dbContext.ClaseEstudiantes.Add(nuevaClaseEstudiante);
-        //            await _dbContext.SaveChangesAsync();
-
-        //            ClaseEstudianteDto.Id = nuevaClaseEstudiante.Id;
-
-        //            mensaje = new Cuerpo
-        //            {
-        //                EsCrear = true,
-        //                ClaseEstudianteDto = ClaseEstudianteDto
-        //            };
-        //        }
-        //        else
-        //        {
-        //            var encontrado = await _dbContext.ClaseEstudiantes
-        //                .FirstOrDefaultAsync(c => c.Id == IdClaseEstudiante);
-
-        //            if (encontrado != null)
-        //            {
-        //                encontrado.EstudianteId = ClaseEstudianteDto.EstudianteId;
-        //                encontrado.ClaseId = ClaseEstudianteDto.ClaseId;
-
-        //                await _dbContext.SaveChangesAsync();
-
-        //                mensaje = new Cuerpo
-        //                {
-        //                    EsCrear = false,
-        //                    ClaseEstudianteDto = ClaseEstudianteDto
-        //                };
-        //            }
-        //        }
-
-        //        MainThread.BeginInvokeOnMainThread(() =>
-        //        {
-        //            LoadingClaseEstudiante = false;
-        //            WeakReferenceMessenger.Default.Send(new Mensajeria(mensaje));
-        //            Shell.Current.Navigation.PopAsync();
-        //        });
-        //    });
-                
-            
-            
-        //}
 
         [RelayCommand]
         public async Task GuardarMultiple()
         {
-            
-            await Task.Run(async () =>
+            try
             {
                 LoadingClaseEstudiante = true;
-                UCuerpo mensaje= new UCuerpo();
-                await Task.Run(async () =>
-                {
-                    if (ClaseEstudianteDto.ClaseId == 0)
-                    {
-                        await Shell.Current.DisplayAlert("Error", "Selecciona una clase válida.", "OK");
-                        return;
-                    }
-                    foreach (var estudiante in EstudiantesSeleccionados.Where(c => c.IsSelected))
-                    {
-                        var nuevaClaseEstudiante = new ClaseEstudiante
-                        {
-                            EstudianteId = estudiante.Id,
-                            ClaseId = ClaseEstudianteDto.ClaseId
-                        };
 
-                        _dbContext.ClaseEstudiantes.Add(nuevaClaseEstudiante);
-                        await _dbContext.SaveChangesAsync();
-                    }
-                    mensaje = new UCuerpo
+                if (ClaseEstudianteDto.ClaseId == 0)
+                {
+                    await Shell.Current.DisplayAlert("Error", "Selecciona una clase válida.", "OK");
+                    return;
+                }
+
+                foreach (var estudiante in EstudiantesSeleccionados.Where(c => c.IsSelected))
+                {
+                    var nuevaClaseEstudiante = new ClaseEstudiante
                     {
-                        EsCrear = true,
-                        ClaseEstudianteDto = ClaseEstudianteDto
+                        EstudianteId = estudiante.Id,
+                        ClaseId = ClaseEstudianteDto.ClaseId
                     };
 
-                    MainThread.BeginInvokeOnMainThread(() =>
-                    {
-                        LoadingClaseEstudiante = false;
-                        WeakReferenceMessenger.Default.Send(new UMensajeria(mensaje));
-                        Shell.Current.Navigation.PopAsync();
-                    });
-                });
-                
-            });
+                    _dbContext.ClaseEstudiantes.Add(nuevaClaseEstudiante);
+                }
+
+                await _dbContext.SaveChangesAsync();
+                await CargarClases();
+                await CargarDatos();
+
+                WeakReferenceMessenger.Default.Send(new UMensajeria(new UCuerpo
+                {
+                    EsCrear = true,
+                    ClaseEstudianteDto = ClaseEstudianteDto
+                }));
+
+                await Shell.Current.Navigation.PopAsync();
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+            }
+            finally
+            {
+                LoadingClaseEstudiante = false;
+            }
         }
+
 
 
         public async Task CargarClases()
@@ -275,9 +225,66 @@ namespace CCVProyecto2v2.ViewsModels
                 if (mensaje.EsCrear)
                 {
                     await CargarClases();
+                    await CargarDatos();
                 }
             });
         }
+        [RelayCommand]
+        public async Task CrearClaseEstudiante()
+        {
+            if (ClaseEstudianteDto != null && ClaseEstudianteDto.ClaseId > 0 && ClaseEstudianteDto.EstudianteId > 0)
+            {
+                try
+                {
+                    var existente = _dbContext.ClaseEstudiantes.FirstOrDefault(
+                        ce => ce.ClaseId == ClaseEstudianteDto.ClaseId &&
+                              ce.EstudianteId == ClaseEstudianteDto.EstudianteId);
+
+                    if (existente == null)
+                    {
+                        _dbContext.ClaseEstudiantes.Add(new ClaseEstudiante
+                        {
+                            ClaseId = ClaseEstudianteDto.ClaseId,
+                            EstudianteId = ClaseEstudianteDto.EstudianteId
+                        });
+                        await _dbContext.SaveChangesAsync();
+
+                    }
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error", "Esta relación ya existe.", "OK");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+                }
+            }
+        }
+        public void CargarListaClaseEstudiantes()
+        {
+            ListaClaseEstudiantes.Clear();
+            var relaciones = _dbContext.ClaseEstudiantes
+                .Include(ce => ce.Clase)
+                .Include(ce => ce.Estudiante)
+                .ToList();
+
+            foreach (var rel in relaciones)
+            {
+                ListaClaseEstudiantes.Add(new ClaseEstudianteDto
+                {
+                    ClaseId = rel.ClaseId,
+                    EstudianteId = rel.EstudianteId,
+                    Clase = new ClaseDto
+                    {
+                        Nombre = rel.Clase.Nombre,
+                        Profesor = new ProfesorDto { Nombre = rel.Clase.Profesor.Nombre }
+                    },
+                    Estudiantes = rel.Estudiante != null ? new List<EstudianteDto> { new EstudianteDto { Nombre = rel.Estudiante.Nombre } } : new List<EstudianteDto>()
+                });
+            }
+        }
+
 
     }
 }
