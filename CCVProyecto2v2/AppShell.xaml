@@ -13,8 +13,7 @@
                 <Image Source="{Binding FlyoutIcon}"
                        HeightRequest="60"
                        WidthRequest="60"
-                       HorizontalOptions="Start"
-                      
+                       HorizontalOptions="Start"     
                        
                        />
                
