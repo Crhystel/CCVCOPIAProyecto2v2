@@ -1,4 +1,5 @@
 ﻿
+using Android.Content;
 using CCVProyecto2v2.DataAccess;
 using CCVProyecto2v2.Dto;
 using CCVProyecto2v2.Models;
@@ -278,6 +279,62 @@ namespace CCVProyecto2v2.ViewsModels
                 }
             });
         }
+        public async Task CrearClaseEstudianteAsync()
+        {
+            if (ClaseEstudianteDto != null && ClaseEstudianteDto.ClaseId > 0 && ClaseEstudianteDto.EstudianteId > 0)
+            {
+                try
+                {
+                    var existente = _dbContext.ClaseEstudiantes.FirstOrDefault(
+                        ce => ce.ClaseId == ClaseEstudianteDto.ClaseId &&
+                              ce.EstudianteId == ClaseEstudianteDto.EstudianteId);
+
+                    if (existente == null)
+                    {
+                        _dbContext.ClaseEstudiantes.Add(new ClaseEstudiante
+                        {
+                            ClaseId = ClaseEstudianteDto.ClaseId,
+                            EstudianteId = ClaseEstudianteDto.EstudianteId
+                        });
+                        await _dbContext.SaveChangesAsync();
+
+                        CargarListaClaseEstudiantes();
+                    }
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error", "Esta relación ya existe.", "OK");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+                }
+            }
+        }
+        public void CargarListaClaseEstudiantes()
+        {
+            ListaClaseEstudiantes.Clear();
+            var relaciones = _dbContext.ClaseEstudiantes
+                .Include(ce => ce.Clase)
+                .Include(ce => ce.Estudiante)
+                .ToList();
+
+            foreach (var rel in relaciones)
+            {
+                ListaClaseEstudiantes.Add(new ClaseEstudianteDto
+                {
+                    ClaseId = rel.ClaseId,
+                    EstudianteId = rel.EstudianteId,
+                    Clase = new ClaseDto
+                    {
+                        Nombre = rel.Clase.Nombre,
+                        Profesor = new ProfesorDto { Nombre = rel.Clase.Profesor.Nombre }
+                    },
+                    Estudiantes = rel.Estudiante != null ? new List<EstudianteDto> { new EstudianteDto { Nombre = rel.Estudiante.Nombre } } : new List<EstudianteDto>()
+                });
+            }
+        }
+
 
     }
 }
