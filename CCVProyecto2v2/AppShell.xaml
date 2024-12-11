@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
+
     x:Class="CCVProyecto2v2.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:CCVProyecto2v2.ViewsGeneral"
     Title="CCVProyecto2v2">
-
+    
     <Shell.ItemTemplate>
         <DataTemplate>
             <Grid ColumnDefinitions="50,*,10"
@@ -13,11 +14,8 @@
                 <Image Source="{Binding FlyoutIcon}"
                        HeightRequest="60"
                        WidthRequest="60"
-                       HorizontalOptions="Start"     
-                       
+                       HorizontalOptions="Start"       
                        />
-               
-
                 <Label Grid.Column="1"
                        Text="{Binding Title}"
                        VerticalTextAlignment="Center"
@@ -29,11 +27,11 @@
         </DataTemplate>
     </Shell.ItemTemplate>
 
-    <FlyoutItem Title="Inicio" Icon="iconhome.png">
-        <ShellContent ContentTemplate="{DataTemplate local:InicioView}" Route="InicioView" />
+    <FlyoutItem Title="Inicio"  >
+        <ShellContent ContentTemplate="{DataTemplate local:InicioView}" Route="InicioView" Icon="iconhome.png" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Soporte" Icon="iconsoporte.png">
-        <ShellContent ContentTemplate="{DataTemplate local:SoporteView}" Route="SoporteView" />
+    <FlyoutItem Title="Soporte" >
+        <ShellContent ContentTemplate="{DataTemplate local:SoporteView}" Route="SoporteView" Icon="iconsoporte.png"/>
     </FlyoutItem>
 </Shell>
