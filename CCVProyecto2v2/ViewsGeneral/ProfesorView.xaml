@@ -2,35 +2,54 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CCVProyecto2v2.ViewsGeneral.ProfesorView"
-             >
+             Title="Profesor - Actividades">
     <ScrollView>
-        <VerticalStackLayout>
+        <VerticalStackLayout Padding="10" BackgroundColor="#e6e2dc">
 
             <Button Text="Crear una nueva Actividad" 
-                 Clicked="CrearActividad_Clicked" 
-                 BackgroundColor="Black" 
-                 TextColor="White" 
-                 FontFamily="TheStudentsTeacherFont"/>
+                    Clicked="CrearActividad_Clicked" 
+                    BackgroundColor="Black" 
+                    TextColor="White" 
+                    FontFamily="TheStudentsTeacherFont" />
 
+            <Label Text="Lista de Actividades" 
+                   FontSize="24" 
+                   FontAttributes="Bold" 
+                   HorizontalTextAlignment="Center" 
+                   Margin="0,10" />
 
-            <Label Text="Actividades" 
-                FontSize="40" 
-                HorizontalTextAlignment="Center" />
-
-
-            <CollectionView x:Name="ActividadesCollection">
+            <CollectionView x:Name="ActividadesCollection" SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout Padding="10">
-                            <Label Text="{Binding Titulo}" 
-                                FontSize="20" 
-                                FontAttributes="Bold" />
-                            <Label Text="{Binding Descripcion}" />
-                            <Label Text="{Binding FechaEntrega, StringFormat='Fecha de Entrega: {0:D}'}" />
-                        </StackLayout>
+                        <Grid Padding="10" BackgroundColor="#f7f7f7" Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <VerticalStackLayout Grid.Column="0">
+                                <Label Text="{Binding Titulo}" 
+                                       FontSize="18" 
+                                       FontAttributes="Bold" 
+                                       TextColor="Black" />
+                                <Label Text="{Binding Descripcion}" 
+                                       FontSize="14" 
+                                       TextColor="Gray" />
+                                <Label Text="{Binding FechaEntrega, StringFormat='Fecha de Entrega: {0:dd/MM/yyyy}'}" 
+                                       FontSize="12" 
+                                       TextColor="#444" />
+                            </VerticalStackLayout>
+                            <Button Text="Eliminar" 
+                                    BackgroundColor="Red" 
+                                    TextColor="White" 
+                                    Grid.Column="1" 
+                                    Padding="5" 
+                                    Clicked="EliminarActividad_Clicked" 
+                                    CommandParameter="{Binding Id}" />
+                        </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

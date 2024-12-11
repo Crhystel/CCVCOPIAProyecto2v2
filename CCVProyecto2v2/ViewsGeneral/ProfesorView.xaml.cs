@@ -24,4 +24,49 @@ public partial class ProfesorView : ContentPage
             ActividadesCollection.ItemsSource = actividades;
         }
     }
+
+    private void EliminarActividad_Clicked(object sender, EventArgs e)
+    {
+        var button = sender as Button;
+        if (button != null && button.CommandParameter is int actividadId)
+        {
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ACTIVIDADES.txt");
+
+            if (File.Exists(path))
+            {
+                try
+                {
+                    // Leer las actividades existentes
+                    var actividades = JsonConvert.DeserializeObject<List<Models.Actividad>>(File.ReadAllText(path)) ?? new List<Models.Actividad>();
+
+                    // Eliminar la actividad seleccionada
+                    var actividadEliminar = actividades.FirstOrDefault(a => a.Id == actividadId);
+                    if (actividadEliminar != null)
+                    {
+                        actividades.Remove(actividadEliminar);
+
+                        // Guardar la lista actualizada
+                        File.WriteAllText(path, JsonConvert.SerializeObject(actividades));
+
+                        // Recargar la lista en la vista
+                        CargarActividades();
+
+                        DisplayAlert("Éxito", "Actividad eliminada correctamente", "OK");
+                    }
+                    else
+                    {
+                        DisplayAlert("Error", "No se encontró la actividad", "OK");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    DisplayAlert("Error", $"No se pudo eliminar la actividad: {ex.Message}", "OK");
+                }
+            }
+            else
+            {
+                DisplayAlert("Error", "El archivo de actividades no existe", "OK");
+            }
+        }
+    }
 }
