@@ -55,10 +55,7 @@ namespace CCVProyecto2v2.ViewsModels
                 ClasesActualizadas(m.Value);
             });
         }
-        public UnirEViewModel()
-        {
-            
-        }
+       
         public async void ApplyQueryAttributes(IDictionary<string, object> query)
         {
             var id = int.Parse(query["id"].ToString());

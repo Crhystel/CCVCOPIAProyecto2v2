@@ -151,7 +151,7 @@ namespace CCVProyecto2v2.ViewsModels
         {
             try
             {
-                bool anwser = await Shell.Current.DisplayAlert("Mensaje", "¿Desea eliminar esta clase junto con los estudiantes relacionados?", "Sí", "No");
+                bool anwser = await Shell.Current.DisplayAlert("Mensaje", "¿Desea eliminar esta clase?", "Sí", "No");
                 if (anwser)
                 {
                     var relacionados = await _dbContext.ClaseEstudiantes

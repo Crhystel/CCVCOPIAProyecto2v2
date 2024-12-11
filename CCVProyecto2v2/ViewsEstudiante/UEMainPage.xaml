@@ -47,13 +47,13 @@
                                 <Label Grid.Row="1" Grid.Column="1" Text="{Binding Clase.Profesor.Nombre}" HorizontalOptions="End" TextColor="Black" />
 
                                 <Label Grid.Row="2" Grid.Column="0" Text="Estudiantes:" FontAttributes="Bold" TextColor="Black" />
-                                <CollectionView Grid.Row="3" Grid.ColumnSpan="2" ItemsSource="{Binding Estudiantes}" Margin="0,0,0,10">
+                                <CollectionView Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Estudiantes}" Margin="0,0,0,10" HorizontalOptions="End">
                                     <CollectionView.ItemsLayout>
                                         <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
                                     </CollectionView.ItemsLayout>
                                     <CollectionView.ItemTemplate>
                                         <DataTemplate x:DataType="model:EstudianteDto">
-                                            <Label Text="{Binding Nombre}" TextColor="Black" />
+                                            <Label Text="{Binding Nombre}" TextColor="Black" HorizontalOptions="Center" />
                                         </DataTemplate>
                                     </CollectionView.ItemTemplate>
                                 </CollectionView>
