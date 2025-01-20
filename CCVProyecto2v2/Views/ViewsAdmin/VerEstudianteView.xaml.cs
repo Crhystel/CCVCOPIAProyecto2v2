@@ -1,5 +1,6 @@
 
 using CCVProyecto2v2.Repositories;
+using CCVProyecto2v2.Views.ViewsEstudiante;
 using CCVProyecto2v2.ViewsModels;
 
 namespace CCVProyecto2v2.ViewsAdmin;
@@ -18,5 +19,10 @@ public partial class AgregarEstudianteView : ContentPage
         base.OnAppearing();
 
         await _viewModel.GetEstudiantes();
+    }
+
+    private void butonAgregar_Clicked(object sender, EventArgs e)
+    {
+        Navigation.PushAsync(new AgregarEstudiante());
     }
 }

@@ -68,13 +68,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\ViewsAdmin\VerEstudianteView.xaml.cs">
+	    <DependentUpon>VerEstudianteView.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="Views\ViewLogin\LoginView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\ViewsAdmin\AgregarEstudianteView.xaml">
+	  <MauiXaml Update="Views\ViewsAdmin\VerEstudianteView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ViewsClase\CMainPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ViewsEstudiante\AgregarEstudiante.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ViewsGeneral\AdministradorView.xaml">

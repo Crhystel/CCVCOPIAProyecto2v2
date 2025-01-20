@@ -22,6 +22,8 @@ namespace CCVProyecto2v2.ViewsModels
         private readonly EstudianteRepository _estudianteRepository;
 
         public ObservableCollection<EstudianteDto> Estudiantes { get; set; }
+        public ObservableCollection<string> Grados { get; set; }
+        public string GradoSeleccionado { get; set; }
         public ICommand CrearEstudianteCommand { get; }
 
         private string _nombre;
@@ -72,6 +74,7 @@ namespace CCVProyecto2v2.ViewsModels
             _estudianteRepository = estudianteRepository;
             Estudiantes = new ObservableCollection<EstudianteDto>();
             CrearEstudianteCommand = new Command(async () => await CrearEstudiante());
+            Grados = new ObservableCollection<string>(Enum.GetNames(typeof(GradoEnum)));
         }
         public EstudianteViewModel()
         {

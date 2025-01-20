@@ -23,6 +23,7 @@ namespace CCVProyecto2v2.Repositories
         {
             try
             {
+                Enum.IsDefined(typeof(GradoEnum), grado);
                 string gradoId = ((int)grado).ToString();
                 string url = $"http://localhost:5057/api/Estudiantes?gradoId={gradoId}";
 
