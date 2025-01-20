@@ -1,4 +1,5 @@
-﻿using CCVProyecto2v2.Interfaces;
+﻿using CCVProyecto2v2.Dto;
+using CCVProyecto2v2.Interfaces;
 using CCVProyecto2v2.Models;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,49 @@ namespace CCVProyecto2v2.Repositories
                 }
 
 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<bool> EliminarEstudiante(int estudianteId)
+        {
+            try
+            {
+                string url = $"http://localhost:5057/api/Estudiantes?estudianteId={estudianteId}";
+
+                HttpRequestMessage request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Delete,
+                    RequestUri = new Uri(url),
+                    Content = new StringContent(
+                        JsonSerializer.Serialize(new Estudiante
+                        {
+                            Id = estudianteId,
+                            Nombre = "string", 
+                            Edad = 0,
+                            Cedula = "string",
+                            Contrasenia = "string",
+                            NombreUsuario = "string"
+                        }),
+                        Encoding.UTF8,
+                        "application/json"
+                    )
+                };
+
+                HttpResponseMessage response = await _httpClient.SendAsync(request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new Exception($"Error al eliminar estudiante. Código de estado: {response.StatusCode}");
+                }
             }
             catch (Exception ex)
             {

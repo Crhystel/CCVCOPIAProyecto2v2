@@ -48,9 +48,10 @@
                    Margin="10,0"
                    TextColor="Black" 
                    PlaceholderColor="Gray" />
-
-            <Picker Title="Grado"
-                    ItemsSource="{Binding Grados}"
+            <Label Text="Grado:"
+                   TextColor="Black"/>
+            <Picker 
+                    ItemsSource="{Binding GradosDisponibles}"
                     SelectedItem="{Binding GradoSeleccionado}"
                     HorizontalOptions="FillAndExpand"
                     Margin="10,0"

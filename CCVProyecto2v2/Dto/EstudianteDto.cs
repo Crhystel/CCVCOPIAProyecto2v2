@@ -31,5 +31,7 @@ namespace CCVProyecto2v2.Dto
         public bool IsSelected { get; set; }
         [ObservableProperty]
         public ObservableCollection<ClaseEstudianteDto> clasesEstudiantes = new();
+        
+        public string GradoDescripcion => Enum.GetName(typeof(GradoEnum), Grado) ?? "N/A";
     }
 }

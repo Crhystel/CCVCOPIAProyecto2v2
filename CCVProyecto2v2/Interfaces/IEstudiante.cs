@@ -11,5 +11,6 @@ namespace CCVProyecto2v2.Interfaces
     {
         Task<List<Estudiante>> GetEstudiantes();
         Task<bool> CrearEstudiante(GradoEnum grado,Estudiante estudiante);
+        Task<bool> EliminarEstudiante(int estudianteId);
     }
 }

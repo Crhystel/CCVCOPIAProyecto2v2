@@ -6,50 +6,64 @@
     <ContentPage.BindingContext>
         <viewmodel:EstudianteViewModel />
     </ContentPage.BindingContext>
+
     <ScrollView>
         <StackLayout Padding="10" Spacing="15">
 
-
             <Button x:Name="butonAgregar"
-                    Text="Agregar Estudinate"
+                    Text="Agregar Estudiante"
                     BackgroundColor="Black"
                     TextColor="White"
-                    Clicked="butonAgregar_Clicked"/>
-
+                    Clicked="butonAgregar_Clicked" />
 
             <Label Text="Lista de Estudiantes" FontSize="24" HorizontalOptions="Center" />
 
             <CollectionView ItemsSource="{Binding Estudiantes}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border Padding="10" HorizontalOptions="FillAndExpand">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="5" />
                             </Border.StrokeShape>
-                            <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,*">
-                                <Label Grid.Row="0" Grid.Column="0" 
-                                       Text="Nombre:" 
-                                       FontAttributes="Bold" 
-                                       TextColor="Black" />
-                                <Label Grid.Row="0" Grid.Column="1" 
-                                       Text="{Binding Nombre}" 
-                                       TextColor="Black" />
+                            <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*,Auto">
 
-                                <Label Grid.Row="1" Grid.Column="0" 
-                                       Text="Edad:" 
-                                       FontAttributes="Bold" 
-                                       TextColor="Black" />
-                                <Label Grid.Row="1" Grid.Column="1" 
-                                       Text="{Binding Edad}" 
-                                       TextColor="Black" />
+                                <Label Grid.Row="0" Grid.Column="0"
+                       Text="Nombre:"
+                       FontAttributes="Bold" 
+                       TextColor="Black" />
+                                <Label Grid.Row="0" Grid.Column="1"
+                       Text="{Binding Nombre}" 
+                       TextColor="Black" />
 
-                                <Label Grid.Row="2" Grid.Column="0" 
-                                       Text="Grado:" 
-                                       FontAttributes="Bold" 
-                                       TextColor="Black" />
-                                <Label Grid.Row="2" Grid.Column="1" 
-                                       Text="{Binding Grado}" 
-                                       TextColor="Black" />
+                                <Label Grid.Row="1" Grid.Column="0"
+                       Text="Edad:"
+                       FontAttributes="Bold"
+                       TextColor="Black" />
+                                <Label Grid.Row="1" Grid.Column="1"
+                       Text="{Binding Edad}"
+                       TextColor="Black" />
+
+                                <Label Grid.Row="2" Grid.Column="0"
+                       Text="Grado:"
+                       FontAttributes="Bold"
+                       TextColor="Black" />
+                                <Label Grid.Row="2" Grid.Column="1"
+                       Text="{Binding Grado}" 
+                       TextColor="Black" />
+
+                                <Button Grid.Row="0" Grid.Column="2" Grid.RowSpan="3"
+                        Text="Eliminar"
+                        BackgroundColor="Black"
+                        TextColor="White"
+                        WidthRequest="80"
+                        HeightRequest="40"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:EstudianteViewModel}}, Path=EliminarEstudianteCommand}"
+                        CommandParameter="{Binding Id}" />
                             </Grid>
                         </Border>
                     </DataTemplate>

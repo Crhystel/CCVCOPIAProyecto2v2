@@ -2,6 +2,7 @@
 using CCVProyecto2v2.Interfaces;
 using CCVProyecto2v2.Models;
 using CCVProyecto2v2.Repositories;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using System;
@@ -22,9 +23,10 @@ namespace CCVProyecto2v2.ViewsModels
         private readonly EstudianteRepository _estudianteRepository;
 
         public ObservableCollection<EstudianteDto> Estudiantes { get; set; }
-        public ObservableCollection<string> Grados { get; set; }
+        public List<GradoEnum> GradosDisponibles { get; } = Enum.GetValues(typeof(GradoEnum)).Cast<GradoEnum>().ToList();
         public string GradoSeleccionado { get; set; }
         public ICommand CrearEstudianteCommand { get; }
+        public ICommand EliminarEstudianteCommand { get; }
 
         private string _nombre;
         private int _edad;
@@ -32,6 +34,8 @@ namespace CCVProyecto2v2.ViewsModels
         private string _contrasenia;
         private string _nombreUsuario;
         private string _mensaje;
+        private GradoEnum _grado;
+
 
         public string Nombre
         {
@@ -68,13 +72,23 @@ namespace CCVProyecto2v2.ViewsModels
             get => _mensaje;
             set { _mensaje = value; OnPropertyChanged(); }
         }
+        public GradoEnum Grado
+        {
+            get => _grado;
+            set
+            {
+                _grado = value;
+                Grado = value;
+                OnPropertyChanged();
+            }
+        }
 
         public EstudianteViewModel(EstudianteRepository estudianteRepository)
         {
             _estudianteRepository = estudianteRepository;
             Estudiantes = new ObservableCollection<EstudianteDto>();
             CrearEstudianteCommand = new Command(async () => await CrearEstudiante());
-            Grados = new ObservableCollection<string>(Enum.GetNames(typeof(GradoEnum)));
+            EliminarEstudianteCommand = new AsyncRelayCommand<int>(EliminarEstudiante);
         }
         public EstudianteViewModel()
         {
@@ -91,12 +105,13 @@ namespace CCVProyecto2v2.ViewsModels
                     Edad = Edad,
                     Cedula = Cedula,
                     Contrasenia = Contrasenia,
-                    NombreUsuario = NombreUsuario
+                    NombreUsuario = NombreUsuario,
+                    Grado=Grado,
+                    
                 };
 
-                var grado = GradoEnum.Primer_Bachillerato_BGU;
 
-                var resultado = await _estudianteRepository.CrearEstudiante(grado, nuevoEstudiante);
+                var resultado = await _estudianteRepository.CrearEstudiante(Grado, nuevoEstudiante);
 
                 if (resultado)
                 {
@@ -138,6 +153,30 @@ namespace CCVProyecto2v2.ViewsModels
             catch (Exception ex)
             {
                 Mensaje = $"Error: {ex.Message}";
+            }
+        }
+
+        private async Task EliminarEstudiante(int estudianteId)
+        {
+            try
+            {
+                bool resultado = await _estudianteRepository.EliminarEstudiante(estudianteId);
+                if (resultado)
+                {
+                    var estudianteEliminar = Estudiantes.FirstOrDefault(e => e.Id == estudianteId);
+                    if (estudianteEliminar != null)
+                    {
+                        Estudiantes.Remove(estudianteEliminar);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Error al eliminar el estudiante.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
             }
         }
 
