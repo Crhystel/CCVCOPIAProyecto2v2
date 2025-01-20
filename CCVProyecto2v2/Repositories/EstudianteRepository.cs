@@ -18,18 +18,44 @@ namespace CCVProyecto2v2.Repositories
         {
             _httpClient = httpClient;
         }
-        
+
+        public async Task<bool> CrearEstudiante(GradoEnum grado, Estudiante estudiante)
+        {
+            try
+            {
+                string gradoId = ((int)grado).ToString();
+                string url = $"http://localhost:5057/api/Estudiantes?gradoId={gradoId}";
+
+                var estudianteJson = JsonSerializer.Serialize(estudiante);
+                var content = new StringContent(estudianteJson, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new Exception($"Error al crear estudiante. Código de estado: {response.StatusCode}");
+                    
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+                return false;
+            }
+        }
 
         public  async Task<List<Estudiante>> GetEstudiantes()
         {
-            using (HttpClient client = new HttpClient())
-            {
+            
                 try
                 {
                     string url = "http://localhost:5057/api/Estudiantes";
-                    client.DefaultRequestHeaders.Add("Accept", "text/plain");
+                    HttpResponseMessage response = await _httpClient.GetAsync(url);
 
-                    HttpResponseMessage response = await client.GetAsync(url);
                     if (response.IsSuccessStatusCode)
                     {
                         var estudiantes = await response.Content.ReadFromJsonAsync<List<Estudiante>>();
@@ -45,7 +71,7 @@ namespace CCVProyecto2v2.Repositories
                     Console.WriteLine($"Exception: {ex.Message}");
                     return new List<Estudiante>();
                 }
-            }
+            
         }
     }
 }

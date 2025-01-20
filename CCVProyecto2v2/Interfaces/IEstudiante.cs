@@ -10,5 +10,6 @@ namespace CCVProyecto2v2.Interfaces
     public interface IEstudiante
     {
         Task<List<Estudiante>> GetEstudiantes();
+        Task<bool> CrearEstudiante(GradoEnum grado,Estudiante estudiante);
     }
 }

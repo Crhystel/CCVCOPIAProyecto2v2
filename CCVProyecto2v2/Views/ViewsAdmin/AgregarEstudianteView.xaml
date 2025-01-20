@@ -7,8 +7,20 @@
         <viewmodel:EstudianteViewModel />
     </ContentPage.BindingContext>
     <ScrollView>
-        <StackLayout Padding="10">
+        <StackLayout Padding="10" Spacing="15">
             <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+
+            <Label Text="Agregar Estudiante" FontSize="24" HorizontalOptions="Center" />
+
+            <Entry Placeholder="Nombre" Text="{Binding Nombre}" />
+            <Entry Placeholder="Edad" Text="{Binding Edad}" Keyboard="Numeric" />
+            <Entry Placeholder="Cédula" Text="{Binding Cedula}" />
+            <Entry Placeholder="Contraseña" Text="{Binding Contrasenia}" IsPassword="True" />
+            <Entry Placeholder="Nombre de Usuario" Text="{Binding NombreUsuario}" />
+
+            <Button Text="Agregar Estudiante" Command="{Binding CrearEstudianteCommand}" />
+
+            <Label Text="{Binding Mensaje}" TextColor="Red" FontSize="14" HorizontalOptions="Center" />
 
             <Label Text="Lista de Estudiantes" FontSize="24" HorizontalOptions="Center" />
 
@@ -17,7 +29,7 @@
                     <DataTemplate>
                         <StackLayout Padding="10" Orientation="Horizontal">
                             <Label Text="{Binding Nombre}" FontSize="18" />
-                            <Label Text="{Binding Apellido}" FontSize="18" Margin="10,0,0,0" />
+                            <Label Text="{Binding Grado}" FontSize="18" Margin="10,0,0,0" />
                             <Label Text="{Binding Edad}" FontSize="18" Margin="10,0,0,0" />
                         </StackLayout>
                     </DataTemplate>
