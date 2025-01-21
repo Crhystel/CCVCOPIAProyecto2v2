@@ -118,6 +118,7 @@ namespace CCVProyecto2v2.ViewModels
                 if (resultado)
                 {
                     await Application.Current.MainPage.DisplayAlert("Creado", "Estudiante creado exitosamente", "Ok");
+                    await Application.Current.MainPage.Navigation.PushAsync(new VerEstudianteView());
                     await GetEstudiantes(); 
                 }
                 else
@@ -127,7 +128,7 @@ namespace CCVProyecto2v2.ViewModels
             }
             catch (Exception ex)
             {
-                Mensaje = $"Error: {ex.Message}";
+                await Application.Current.MainPage.DisplayAlert("Error", $"Error: {ex.Message}", "OK");
             }
         }
 
@@ -154,7 +155,7 @@ namespace CCVProyecto2v2.ViewModels
             }
             catch (Exception ex)
             {
-                Mensaje = $"Error: {ex.Message}";
+                await Application.Current.MainPage.DisplayAlert("Error", $"Error: {ex.Message}", "OK");
             }
         }
        
@@ -182,25 +183,33 @@ namespace CCVProyecto2v2.ViewModels
         {
             try
             {
-                bool resultado = await _estudianteRepository.EliminarEstudiante(estudianteId);
-                if (resultado)
+                bool confirmacion = await Application.Current.MainPage.DisplayAlert(
+                   "Aviso",
+                   "¿Estás seguro de que deseas eliminar este estudiante?",
+                   "Sí",
+                   "No");
+
+                if (confirmacion)
                 {
-                    var estudianteEliminar = Estudiantes.FirstOrDefault(c => c.Id == estudianteId);
-                    if (estudianteEliminar != null)
+                    bool resultado = await _estudianteRepository.EliminarEstudiante(estudianteId);
+                    if (resultado)
                     {
-                        Estudiantes.Remove(estudianteEliminar);
+                        var estudianteEliminar = Estudiantes.FirstOrDefault(c => c.Id == estudianteId);
+                        if (estudianteEliminar != null)
+                        {
+                            Estudiantes.Remove(estudianteEliminar);
+                            await Application.Current.MainPage.DisplayAlert("Eliminado", "Estudiante eliminado exitosamente", "Ok");
+                        }
                     }
-                    await Application.Current.MainPage.DisplayAlert("Eliminado", "Estudiante eliminado exitosamente", "Ok");
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error", "Error al eliminar el estudiante.", "OK");
+                    }
                 }
-                else
-                {
-                    await Application.Current.MainPage.DisplayAlert("Error", "Error al eliminar el estudiante.", "OK");
-                }
-               
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                await Application.Current.MainPage.DisplayAlert("Error", $"Error: {ex.Message}", "OK");
             }
         }
 
@@ -241,7 +250,7 @@ namespace CCVProyecto2v2.ViewModels
             }
             catch (Exception ex)
             {
-                Mensaje = $"Error: {ex.Message}";
+                await Application.Current.MainPage.DisplayAlert("Error", $"Error: {ex.Message}", "OK");
             }
         }
 

@@ -109,7 +109,7 @@ namespace CCVProyecto2v2.ViewModels
             }
             catch(Exception ex) 
             {
-                Mensaje = $"Error: {ex.Message}";
+                await Application.Current.MainPage.DisplayAlert("Error", $"Error: {ex.Message}", "OK");
             }
         }
         public async Task GetProfesores()
@@ -135,7 +135,7 @@ namespace CCVProyecto2v2.ViewModels
             }
             catch(Exception ex)
             {
-                Mensaje=$"Error: {ex.Message}";
+                await Application.Current.MainPage.DisplayAlert("Error", $"Error: {ex.Message}", "OK");
             }
         }
         private async Task EliminarProfesor(int profesorId)
@@ -155,7 +155,7 @@ namespace CCVProyecto2v2.ViewModels
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                await Application.Current.MainPage.DisplayAlert("Error", $"Error: {ex.Message}", "OK");
             }
         }
 
