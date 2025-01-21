@@ -15,7 +15,7 @@ namespace CCVProyecto2v2.ViewModels
         public ObservableCollection<ProfesorDto> Profesores { get; set; }
         public List<MateriaEnum> MateriasDsiponibles { get; }=Enum.GetValues(typeof(MateriaEnum)).Cast<MateriaEnum>().ToList();
         public ICommand CrearProfesorCommand { get; }
-        public ICommand EliminarEstudianteCommand { get; }
+        public ICommand EliminarProfesorCommand { get; }
 
         private string _nombre;
         private int _edad;
@@ -75,7 +75,7 @@ namespace CCVProyecto2v2.ViewModels
             _profesorRepository = profesorRepository;
             Profesores = new ObservableCollection<ProfesorDto>();
             CrearProfesorCommand = new Command(async () => await CrearProfesor());
-            EliminarEstudianteCommand = new AsyncRelayCommand<int>(EliminarProfesor);
+            EliminarProfesorCommand = new AsyncRelayCommand<int>(EliminarProfesor);
 
         }
         public ProfesorViewModel()

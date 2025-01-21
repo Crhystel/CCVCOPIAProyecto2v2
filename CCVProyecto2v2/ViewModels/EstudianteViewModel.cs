@@ -2,6 +2,7 @@
 using CCVProyecto2v2.Interfaces;
 using CCVProyecto2v2.Models;
 using CCVProyecto2v2.Repositories;
+using CCVProyecto2v2.Views.ViewsEstudiante;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -19,7 +20,9 @@ namespace CCVProyecto2v2.ViewModels
        
         public ICommand CrearEstudianteCommand { get; }
         public ICommand EliminarEstudianteCommand { get; }
+        public ICommand ActualizarEstudianteCommand { get; }
 
+        private int _id;
         private string _nombre;
         private int _edad;
         private string _cedula;
@@ -28,7 +31,11 @@ namespace CCVProyecto2v2.ViewModels
         private string _mensaje;
         private GradoEnum _grado;
 
-
+        public int Id
+        {
+            get => _id;
+            set { _id = value; OnPropertyChanged(); }
+        }
         public string Nombre
         {
             get => _nombre;
@@ -80,6 +87,7 @@ namespace CCVProyecto2v2.ViewModels
             Estudiantes = new ObservableCollection<EstudianteDto>();
             CrearEstudianteCommand = new Command(async () => await CrearEstudiante());
             EliminarEstudianteCommand = new AsyncRelayCommand<int>(EliminarEstudiante);
+            ActualizarEstudianteCommand=new Command<int>(async (id) => await ActualizarEstudiante(id));
         }
         public EstudianteViewModel()
         {
@@ -146,7 +154,27 @@ namespace CCVProyecto2v2.ViewModels
                 Mensaje = $"Error: {ex.Message}";
             }
         }
-
+       
+                  
+        private async Task ActualizarEstudiante(int estudianteId)
+        {
+            var estudiante = await _estudianteRepository.GetEstudiantes();
+            var estudianteSeleccionado = estudiante.FirstOrDefault(c => c.Id == estudianteId);
+            if (estudianteSeleccionado != null)
+            {
+                Id = estudianteSeleccionado.Id;
+                Nombre = estudianteSeleccionado.Nombre;
+                Edad = estudianteSeleccionado.Edad;
+                Cedula = estudianteSeleccionado.Cedula;
+                Contrasenia = estudianteSeleccionado.Contrasenia;
+                NombreUsuario = estudianteSeleccionado.NombreUsuario;
+                Grado = estudianteSeleccionado.Grado;
+                await Application.Current.MainPage.Navigation.PushAsync(new EditarEstudianteView
+                {
+                    BindingContext = this
+                });
+            }
+        }
         private async Task EliminarEstudiante(int estudianteId)
         {
             try

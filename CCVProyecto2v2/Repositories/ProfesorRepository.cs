@@ -44,26 +44,8 @@ namespace CCVProyecto2v2.Repositories
             try
             {
                 string url= $"http://localhost:5057/api/Profesores?profesorId={profesorId}";
-                HttpRequestMessage request = new HttpRequestMessage
-                {
-                    Method = HttpMethod.Delete,
-                    RequestUri = new Uri(url),
-                    Content = new StringContent(
-                        JsonSerializer.Serialize(new Profesor
-                        {
-                            Id = profesorId,
-                            Nombre = "string",
-                            Edad = 0,
-                            Cedula = "string",
-                            NombreUsuario = "string",
-                            Contrasenia = "string",
 
-                        }),
-                        Encoding.UTF8,
-                        "application/json"
-                        )
-                };
-                HttpResponseMessage response = await _httpClient.SendAsync(request);
+                HttpResponseMessage response = await _httpClient.DeleteAsync(url);
                 if (response.IsSuccessStatusCode)
                 {
                     return true;

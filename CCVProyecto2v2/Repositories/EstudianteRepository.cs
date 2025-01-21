@@ -15,6 +15,30 @@ namespace CCVProyecto2v2.Repositories
             _httpClient = httpClient;
         }
 
+        public async Task<bool> ActualizarEstudiante(int estudianteId, Estudiante estudiante)
+        {
+            try
+            {
+                string url = $"http://localhost:5057/api/Estudiantes?estudianteId={estudianteId}";
+                var estudianteJson=JsonSerializer.Serialize(estudiante);
+                var content = new StringContent(estudianteJson, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PutAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new Exception($"Error al actualizar estudiante. Código de estado: {response.StatusCode}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+                return false;
+            }
+        }
+
         public async Task<bool> CrearEstudiante(GradoEnum grado, Estudiante estudiante)
         {
             try
@@ -50,27 +74,7 @@ namespace CCVProyecto2v2.Repositories
             try
             {
                 string url = $"http://localhost:5057/api/Estudiantes?estudianteId={estudianteId}";
-
-                HttpRequestMessage request = new HttpRequestMessage
-                {
-                    Method = HttpMethod.Delete,
-                    RequestUri = new Uri(url),
-                    Content = new StringContent(
-                        JsonSerializer.Serialize(new Estudiante
-                        {
-                            Id = estudianteId,
-                            Nombre = "string", 
-                            Edad = 0,
-                            Cedula = "string",
-                            Contrasenia = "string",
-                            NombreUsuario = "string"
-                        }),
-                        Encoding.UTF8,
-                        "application/json"
-                    )
-                };
-
-                HttpResponseMessage response = await _httpClient.SendAsync(request);
+                HttpResponseMessage response = await _httpClient.DeleteAsync(url);
 
                 if (response.IsSuccessStatusCode)
                 {
