@@ -24,7 +24,7 @@ namespace CCVProyecto2v2.ViewsModels
 
         public ObservableCollection<EstudianteDto> Estudiantes { get; set; }
         public List<GradoEnum> GradosDisponibles { get; } = Enum.GetValues(typeof(GradoEnum)).Cast<GradoEnum>().ToList();
-        public string GradoSeleccionado { get; set; }
+       
         public ICommand CrearEstudianteCommand { get; }
         public ICommand EliminarEstudianteCommand { get; }
 
@@ -78,7 +78,6 @@ namespace CCVProyecto2v2.ViewsModels
             set
             {
                 _grado = value;
-                Grado = value;
                 OnPropertyChanged();
             }
         }
