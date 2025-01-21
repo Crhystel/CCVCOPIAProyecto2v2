@@ -156,6 +156,7 @@ namespace CCVProyecto2v2.ViewModels
             var profesorSeleccionado = profesor.FirstOrDefault(c => c.Id == profesorId);
             if (profesorSeleccionado != null)
             {
+                Id = profesorSeleccionado.Id;
                 Nombre = profesorSeleccionado.Nombre;
                 Edad = profesorSeleccionado.Edad;
                 Cedula = profesorSeleccionado.Cedula;
