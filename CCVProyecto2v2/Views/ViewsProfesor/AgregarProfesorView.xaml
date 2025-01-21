@@ -3,10 +3,72 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CCVProyecto2v2.Views.ViewsProfesor.AgregarProfesorView"
              Title="AgregarProfesorView">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+
+            <Label Text="Agregar Profesor" 
+           FontSize="24" 
+           HorizontalOptions="Center" 
+           TextColor="Black" />
+
+            <Entry Placeholder="Nombre" 
+           Text="{Binding Nombre}" 
+           HorizontalOptions="FillAndExpand" 
+           Margin="10,0"
+           TextColor="Black" 
+           PlaceholderColor="Gray" />
+
+            <Entry Placeholder="Edad" 
+           Text="{Binding Edad}" 
+           Keyboard="Numeric" 
+           HorizontalOptions="FillAndExpand" 
+           Margin="10,0"
+           TextColor="Black" 
+           PlaceholderColor="Gray" />
+
+            <Entry Placeholder="Cédula" 
+           Text="{Binding Cedula}" 
+           HorizontalOptions="FillAndExpand" 
+           Margin="10,0"
+           TextColor="Black" 
+           PlaceholderColor="Gray" />
+
+            <Entry Placeholder="Nombre de Usuario" 
+           Text="{Binding NombreUsuario}" 
+           HorizontalOptions="FillAndExpand" 
+           Margin="10,0"
+           TextColor="Black" 
+           PlaceholderColor="Gray" />
+
+            <Entry Placeholder="Contraseña" 
+           Text="{Binding Contrasenia}" 
+           IsPassword="True" 
+           HorizontalOptions="FillAndExpand" 
+           Margin="10,0"
+           TextColor="Black" 
+           PlaceholderColor="Gray" />
+            <Label Text="Materia:"
+           TextColor="Black"/>
+            <Picker 
+            ItemsSource="{Binding MateriasDsiponibles}"
+            SelectedItem="{Binding Materia}"
+            HorizontalOptions="FillAndExpand"
+            Margin="10,0"
+            TextColor="Black"
+            BackgroundColor="White" />
+
+            <Button Text="Agregar Estudiante" 
+            Command="{Binding CrearProfesorCommand}" 
+            BackgroundColor="Black" 
+            TextColor="White" 
+            HorizontalOptions="FillAndExpand" 
+            Margin="10,0" />
+
+            <Label Text="{Binding Mensaje}" 
+           TextColor="Red" 
+           FontSize="14" 
+           HorizontalOptions="Center" />
+
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

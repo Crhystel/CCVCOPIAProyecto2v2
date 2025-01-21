@@ -1,5 +1,6 @@
 using CCVProyecto2v2.Repositories;
 using CCVProyecto2v2.ViewModels;
+using CCVProyecto2v2.Views.ViewsProfesor;
 using CCVProyecto2v2.ViewsGeneral;
 
 namespace CCVProyecto2v2.Views.ViewsAdmin;
@@ -22,6 +23,6 @@ public partial class VerProfesorView : ContentPage
     private void butunAgregar_Clicked(object sender, EventArgs e)
     {
 
-
+        Navigation.PushAsync(new AgregarProfesorView());
     }
 }
