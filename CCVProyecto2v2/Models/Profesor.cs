@@ -10,7 +10,7 @@ namespace CCVProyecto2v2.Models
     public class Profesor : Usuario
     {
         [Required(ErrorMessage = "Este campo es obligatorio.")]
-        public MateriaEnum? Materia { get; set; }
+        public MateriaEnum Materia { get; set; }
         public RolEnum Rol { get; set; }
         public ICollection<Clase> Clases { get; set; }
     }

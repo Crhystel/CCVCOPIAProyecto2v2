@@ -12,5 +12,6 @@ namespace CCVProyecto2v2.Interfaces
         Task<List<Profesor>> GetProfesores();
         Task<bool> CrearProfesor(MateriaEnum materia, Profesor profesor);
         Task<bool> EliminarProfesor(int profesorId);
+        Task<bool> ActualizarProfesor(int profesorId, Profesor profesor);
     }
 }

@@ -48,16 +48,28 @@
                                 <Label Grid.Row="2" Grid.Column="1"
                                        Text="{Binding Materia}" 
                                        TextColor="Black" />
-                                <Button Grid.Row="0" Grid.Column="2" Grid.RowSpan="3"
-                                        Text="Eliminar"
-                                        BackgroundColor="Black"
-                                        TextColor="White"
-                                        WidthRequest="80"
-                                        HeightRequest="40"
-                                        HorizontalOptions="End"
-                                        VerticalOptions="Center"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfesorViewModel}}, Path=EliminarProfesorCommand}"
-                                        CommandParameter="{Binding Id}" />
+                                <Label Grid.Row="3" Grid.Column="3" Padding="10,5,0,5"
+                                       Text="Eliminar"
+                                       TextColor="Black"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="Start">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                          Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfesorViewModel}}, Path=EliminarProfesorCommand}"
+                                          CommandParameter="{Binding Id}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Label Grid.Row="2" Grid.Column="3" Padding="0,5,10,5"
+                                       Text="Editar"
+                                       TextColor="Black"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="End">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfesorViewModel}}, Path=ActualizarProfesorCommand}"
+                                           CommandParameter="{Binding Id}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
                             </Grid>
                         </Border>
                     </DataTemplate>

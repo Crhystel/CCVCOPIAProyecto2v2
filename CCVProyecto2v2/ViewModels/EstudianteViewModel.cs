@@ -230,15 +230,15 @@ namespace CCVProyecto2v2.ViewModels
                 var resultado = await _estudianteRepository.ActualizarEstudiante(Id,estudianteActualizado);
                 if (resultado)
                 {
-                    var estudianteEnLista = Estudiantes.FirstOrDefault(e => e.Id == Id);
-                    if (estudianteEnLista != null)
+                    var estudianteExistente = Estudiantes.FirstOrDefault(e => e.Id == Id);
+                    if (estudianteExistente != null)
                     {
-                        estudianteEnLista.Nombre = Nombre;
-                        estudianteEnLista.Edad = Edad;
-                        estudianteEnLista.Cedula = Cedula;
-                        estudianteEnLista.Contrasenia = Contrasenia;
-                        estudianteEnLista.NombreUsuario = NombreUsuario;
-                        estudianteEnLista.Grado = Grado;
+                        estudianteExistente.Nombre = Nombre;
+                        estudianteExistente.Edad = Edad;
+                        estudianteExistente.Cedula = Cedula;
+                        estudianteExistente.Contrasenia = Contrasenia;
+                        estudianteExistente.NombreUsuario = NombreUsuario;
+                        estudianteExistente.Grado = Grado;
                     }
                     await Application.Current.MainPage.DisplayAlert("Guardado", "Cambios guardados exitosamente", "Ok");
                     await Application.Current.MainPage.Navigation.PushAsync(new VerEstudianteView());

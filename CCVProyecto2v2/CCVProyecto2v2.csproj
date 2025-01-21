@@ -107,6 +107,9 @@
 	  <MauiXaml Update="Views\ViewsProfesor\CrearActividadView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\ViewsProfesor\EditarProfesorView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>

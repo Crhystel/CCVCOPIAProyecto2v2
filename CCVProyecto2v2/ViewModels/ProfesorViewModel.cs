@@ -1,6 +1,8 @@
 ﻿using CCVProyecto2v2.Dto;
 using CCVProyecto2v2.Models;
 using CCVProyecto2v2.Repositories;
+using CCVProyecto2v2.Views.ViewsAdmin;
+using CCVProyecto2v2.Views.ViewsProfesor;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -16,7 +18,10 @@ namespace CCVProyecto2v2.ViewModels
         public List<MateriaEnum> MateriasDsiponibles { get; }=Enum.GetValues(typeof(MateriaEnum)).Cast<MateriaEnum>().ToList();
         public ICommand CrearProfesorCommand { get; }
         public ICommand EliminarProfesorCommand { get; }
+        public ICommand ActualizarProfesorCommand { get; }
+        public ICommand GuardarProfesorCommand { get; }
 
+        private int _id;
         private string _nombre;
         private int _edad;
         private string _cedula;
@@ -25,6 +30,11 @@ namespace CCVProyecto2v2.ViewModels
         private string _mensaje;
         private MateriaEnum _materia;
 
+        public int Id
+        {
+            get => _id;
+            set { _id = value; OnPropertyChanged(); }
+        }
         public string Nombre
         {
             get => _nombre;
@@ -76,7 +86,8 @@ namespace CCVProyecto2v2.ViewModels
             Profesores = new ObservableCollection<ProfesorDto>();
             CrearProfesorCommand = new Command(async () => await CrearProfesor());
             EliminarProfesorCommand = new AsyncRelayCommand<int>(EliminarProfesor);
-
+            ActualizarProfesorCommand=new AsyncRelayCommand<int>(ActualizarProfesor);
+            GuardarProfesorCommand = new AsyncRelayCommand(GuardarCambios);
         }
         public ProfesorViewModel()
         {
@@ -99,12 +110,13 @@ namespace CCVProyecto2v2.ViewModels
                 var resultado = await _profesorRepository.CrearProfesor(Materia, nuevoProfesor);
                 if (resultado)
                 {
-                    Mensaje = "Profesor creado exitosamente";
+                    await Application.Current.MainPage.DisplayAlert("Creado", "Profesor creado exitosamente", "Ok");
+                    await Application.Current.MainPage.Navigation.PushAsync(new VerEstudianteView());
                     await GetProfesores();
                 }
                 else
                 {
-                    Mensaje = "Error al crear el estudiante";
+                    await Application.Current.MainPage.DisplayAlert("Error", "Error al crear el profesor.", "OK");
                 }
             }
             catch(Exception ex) 
@@ -134,6 +146,64 @@ namespace CCVProyecto2v2.ViewModels
                 }
             }
             catch(Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", $"Error: {ex.Message}", "OK");
+            }
+        }
+        private async Task ActualizarProfesor(int profesorId)
+        {
+            var profesor = await _profesorRepository.GetProfesores();
+            var profesorSeleccionado = profesor.FirstOrDefault(c => c.Id == profesorId);
+            if (profesorSeleccionado != null)
+            {
+                Nombre = profesorSeleccionado.Nombre;
+                Edad = profesorSeleccionado.Edad;
+                Cedula = profesorSeleccionado.Cedula;
+                Contrasenia = profesorSeleccionado.Contrasenia;
+                NombreUsuario = profesorSeleccionado.NombreUsuario;
+                Materia = profesorSeleccionado.Materia;
+                await Application.Current.MainPage.Navigation.PushAsync(new EditarProfesorView
+                {
+                    BindingContext = this
+                });
+            }
+        }
+        private async Task GuardarCambios()
+        {
+            try
+            {
+                var profesorActualizado = new Profesor
+                {
+                    Id = Id,
+                    Nombre = Nombre,
+                    Edad = Edad,
+                    Cedula = Cedula,
+                    Contrasenia = Contrasenia,
+                    NombreUsuario = NombreUsuario,
+                    Materia = Materia,
+                };
+                var resultado=await _profesorRepository.ActualizarProfesor(Id,profesorActualizado);
+                if (resultado)
+                {
+                    var profesorExistente = Profesores.FirstOrDefault(c => c.Id == Id);
+                    if(profesorExistente != null)
+                    {
+                        profesorExistente.Nombre = Nombre;
+                        profesorExistente.Edad = Edad;
+                        profesorExistente.Cedula = Cedula;
+                        profesorExistente.Contrasenia = Contrasenia;
+                        profesorExistente.NombreUsuario = NombreUsuario;
+                        profesorExistente.Materia = Materia;
+                    }
+                    await Application.Current.MainPage.DisplayAlert("Guardado", "Cambios guardados exitosamente", "Ok");
+                    await Application.Current.MainPage.Navigation.PushAsync(new VerProfesorView());
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Error al guardar los cambios.", "OK");
+                }
+            }
+            catch (Exception ex)
             {
                 await Application.Current.MainPage.DisplayAlert("Error", $"Error: {ex.Message}", "OK");
             }

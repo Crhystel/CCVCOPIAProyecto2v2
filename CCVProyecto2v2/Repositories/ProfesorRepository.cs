@@ -13,6 +13,31 @@ namespace CCVProyecto2v2.Repositories
         {
             _httpClient = httpClient;
         }
+
+        public async Task<bool> ActualizarProfesor(int profesorId, Profesor profesor)
+        {
+            try
+            {
+                string url = $"http://localhost:5057/api/Profesores?profesorId={profesorId}";
+                var profesorJson = JsonSerializer.Serialize(profesor);
+                var content = new StringContent(profesorJson, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PutAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new Exception($"Error al actualizar profesor. Código de estado: {response.StatusCode}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+                return false;
+            }
+        }
+
         public async Task<bool> CrearProfesor(MateriaEnum materia, Profesor profesor)
         {
             try
