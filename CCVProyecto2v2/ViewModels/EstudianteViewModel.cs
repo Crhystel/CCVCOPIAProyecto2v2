@@ -21,6 +21,7 @@ namespace CCVProyecto2v2.ViewModels
         public ICommand CrearEstudianteCommand { get; }
         public ICommand EliminarEstudianteCommand { get; }
         public ICommand ActualizarEstudianteCommand { get; }
+        public ICommand GuardarEstudianteCommand { get; }
 
         private int _id;
         private string _nombre;
@@ -87,7 +88,8 @@ namespace CCVProyecto2v2.ViewModels
             Estudiantes = new ObservableCollection<EstudianteDto>();
             CrearEstudianteCommand = new Command(async () => await CrearEstudiante());
             EliminarEstudianteCommand = new AsyncRelayCommand<int>(EliminarEstudiante);
-            ActualizarEstudianteCommand=new Command<int>(async (id) => await ActualizarEstudiante(id));
+            ActualizarEstudianteCommand=new AsyncRelayCommand<int>(ActualizarEstudiante);
+            GuardarEstudianteCommand = new AsyncRelayCommand(GuardarCambios);
         }
         public EstudianteViewModel()
         {
@@ -193,6 +195,46 @@ namespace CCVProyecto2v2.ViewModels
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
+
+        private async Task GuardarCambios()
+        {
+            try
+            {
+                var estudianteActualizado = new Estudiante
+                {
+                    Id = Id,
+                    Nombre = Nombre,
+                    Edad = Edad,
+                    Cedula = Cedula,
+                    Contrasenia = Contrasenia,
+                    NombreUsuario = NombreUsuario,
+                    Grado = Grado,
+                };
+                var resultado = await _estudianteRepository.ActualizarEstudiante(Id,estudianteActualizado);
+                if (resultado)
+                {
+                    Mensaje = "Cambios guardados exitosamente.";
+                    var estudianteEnLista = Estudiantes.FirstOrDefault(e => e.Id == Id);
+                    if (estudianteEnLista != null)
+                    {
+                        estudianteEnLista.Nombre = Nombre;
+                        estudianteEnLista.Edad = Edad;
+                        estudianteEnLista.Cedula = Cedula;
+                        estudianteEnLista.Contrasenia = Contrasenia;
+                        estudianteEnLista.NombreUsuario = NombreUsuario;
+                        estudianteEnLista.Grado = Grado;
+                    }
+                }
+                else
+                {
+                    Mensaje = "Error al guardar los cambios.";
+                }
+            }
+            catch (Exception ex)
+            {
+                Mensaje = $"Error: {ex.Message}";
             }
         }
 

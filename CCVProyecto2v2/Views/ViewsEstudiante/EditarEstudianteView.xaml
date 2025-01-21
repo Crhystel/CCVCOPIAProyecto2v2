@@ -47,7 +47,7 @@
                     HorizontalOptions="FillAndExpand" />
 
             <Button Text="Guardar Cambios"
-                    Command="{Binding GuardarCambiosCommand}"
+                    Command="{Binding GuardarEstudianteCommand}"
                     BackgroundColor="Black"
                     TextColor="White"
                     HorizontalOptions="FillAndExpand" />
