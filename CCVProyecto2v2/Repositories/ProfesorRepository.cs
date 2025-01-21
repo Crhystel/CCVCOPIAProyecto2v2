@@ -6,7 +6,7 @@ using System.Text.Json;
 
 namespace CCVProyecto2v2.Repositories
 {
-    class ProfesorRepository : IProfesor
+    public class ProfesorRepository : IProfesor
     {
         private readonly HttpClient _httpClient;
         public ProfesorRepository(HttpClient httpClient)

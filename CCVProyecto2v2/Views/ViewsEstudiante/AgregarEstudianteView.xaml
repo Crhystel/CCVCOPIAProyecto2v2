@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CCVProyecto2v2.Views.ViewsEstudiante.AgregarEstudianteView"
+             Title="AgregarEstudianteView">
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+
+            <Label Text="Agregar Estudiante" 
+               FontSize="24" 
+               HorizontalOptions="Center" 
+               TextColor="Black" />
+
+            <Entry Placeholder="Nombre" 
+               Text="{Binding Nombre}" 
+               HorizontalOptions="FillAndExpand" 
+               Margin="10,0"
+               TextColor="Black" 
+               PlaceholderColor="Gray" />
+
+            <Entry Placeholder="Edad" 
+               Text="{Binding Edad}" 
+               Keyboard="Numeric" 
+               HorizontalOptions="FillAndExpand" 
+               Margin="10,0"
+               TextColor="Black" 
+               PlaceholderColor="Gray" />
+
+            <Entry Placeholder="Cédula" 
+               Text="{Binding Cedula}" 
+               HorizontalOptions="FillAndExpand" 
+               Margin="10,0"
+               TextColor="Black" 
+               PlaceholderColor="Gray" />
+
+            <Entry Placeholder="Nombre de Usuario" 
+               Text="{Binding NombreUsuario}" 
+               HorizontalOptions="FillAndExpand" 
+               Margin="10,0"
+               TextColor="Black" 
+               PlaceholderColor="Gray" />
+
+            <Entry Placeholder="Contraseña" 
+               Text="{Binding Contrasenia}" 
+               IsPassword="True" 
+               HorizontalOptions="FillAndExpand" 
+               Margin="10,0"
+               TextColor="Black" 
+               PlaceholderColor="Gray" />
+            <Label Text="Grado:"
+               TextColor="Black"/>
+            <Picker 
+                ItemsSource="{Binding GradosDisponibles}"
+                SelectedItem="{Binding GradoSeleccionado}"
+                HorizontalOptions="FillAndExpand"
+                Margin="10,0"
+                TextColor="Black"
+                BackgroundColor="White" />
+
+            <Button Text="Agregar Estudiante" 
+                Command="{Binding CrearEstudianteCommand}" 
+                BackgroundColor="Black" 
+                TextColor="White" 
+                HorizontalOptions="FillAndExpand" 
+                Margin="10,0" />
+
+            <Label Text="{Binding Mensaje}" 
+               TextColor="Red" 
+               FontSize="14" 
+               HorizontalOptions="Center" />
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

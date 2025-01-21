@@ -1,5 +1,5 @@
 
-using CCVProyecto2v2.ViewsModels;
+using CCVProyecto2v2.ViewModels;
 
 namespace CCVProyecto2v2.ViewsClase;
 

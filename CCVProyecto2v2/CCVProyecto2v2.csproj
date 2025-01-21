@@ -68,22 +68,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Views\ViewsAdmin\VerEstudianteView.xaml.cs">
-	    <DependentUpon>VerEstudianteView.xaml</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
 	  <MauiXaml Update="Views\ViewLogin\LoginView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ViewsAdmin\VerEstudianteView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\ViewsAdmin\VerProfesorView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\ViewsClase\CMainPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\ViewsEstudiante\AgregarEstudiante.xaml">
+	  <MauiXaml Update="Views\ViewsEstudiante\AgregarEstudianteView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ViewsGeneral\AdministradorView.xaml">
@@ -101,10 +98,10 @@
 	  <MauiXaml Update="Views\ViewsGeneral\SoporteView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\ViewsProfesor\CrearActividadView.xaml">
+	  <MauiXaml Update="Views\ViewsProfesor\AgregarProfesorView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\ViewsProfesor\PMainPage.xaml">
+	  <MauiXaml Update="Views\ViewsProfesor\CrearActividadView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

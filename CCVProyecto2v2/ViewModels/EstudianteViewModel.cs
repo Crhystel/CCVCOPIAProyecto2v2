@@ -2,21 +2,13 @@
 using CCVProyecto2v2.Interfaces;
 using CCVProyecto2v2.Models;
 using CCVProyecto2v2.Repositories;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace CCVProyecto2v2.ViewsModels
+namespace CCVProyecto2v2.ViewModels
 {
     public partial class EstudianteViewModel:INotifyPropertyChanged
     {
@@ -162,16 +154,13 @@ namespace CCVProyecto2v2.ViewsModels
                 bool resultado = await _estudianteRepository.EliminarEstudiante(estudianteId);
                 if (resultado)
                 {
-                    var estudianteEliminar = Estudiantes.FirstOrDefault(e => e.Id == estudianteId);
+                    var estudianteEliminar = Estudiantes.FirstOrDefault(c => c.Id == estudianteId);
                     if (estudianteEliminar != null)
                     {
                         Estudiantes.Remove(estudianteEliminar);
                     }
                 }
-                else
-                {
-                    Console.WriteLine("Error al eliminar el estudiante.");
-                }
+               
             }
             catch (Exception ex)
             {

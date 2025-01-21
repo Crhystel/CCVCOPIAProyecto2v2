@@ -1,14 +1,13 @@
-
 using CCVProyecto2v2.Repositories;
 using CCVProyecto2v2.Views.ViewsEstudiante;
-using CCVProyecto2v2.ViewsModels;
+using CCVProyecto2v2.ViewModels;
 
-namespace CCVProyecto2v2.ViewsAdmin;
+namespace CCVProyecto2v2.Views.ViewsAdmin;
 
-public partial class AgregarEstudianteView : ContentPage
+public partial class VerEstudianteView : ContentPage
 {
     private readonly EstudianteViewModel _viewModel;
-    public AgregarEstudianteView()
+    public VerEstudianteView()
     {
         InitializeComponent();
         _viewModel = new EstudianteViewModel(new EstudianteRepository(new HttpClient()));
@@ -23,6 +22,6 @@ public partial class AgregarEstudianteView : ContentPage
 
     private void butonAgregar_Clicked(object sender, EventArgs e)
     {
-        Navigation.PushAsync(new AgregarEstudiante());
+        Navigation.PushAsync(new AgregarEstudianteView());
     }
 }

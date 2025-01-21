@@ -2,14 +2,9 @@
 using CCVProyecto2v2.Models;
 using CCVProyecto2v2.Repositories;
 using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace CCVProyecto2v2.ViewModels
@@ -21,6 +16,7 @@ namespace CCVProyecto2v2.ViewModels
         public List<MateriaEnum> MateriasDsiponibles { get; }=Enum.GetValues(typeof(MateriaEnum)).Cast<MateriaEnum>().ToList();
         public ICommand CrearProfesorCommand { get; }
         public ICommand EliminarEstudianteCommand { get; }
+
         private string _nombre;
         private int _edad;
         private string _cedula;
@@ -122,7 +118,44 @@ namespace CCVProyecto2v2.ViewModels
             {
                 var profesores = await _profesorRepository.GetProfesores();
                 Profesores.Clear();
-                foreach(var profesores in )
+                foreach(var profesor in profesores)
+                {
+                    Profesores.Add(new ProfesorDto
+                    {
+                        Id = profesor.Id,
+                        Cedula = profesor.Cedula,
+                        Nombre = profesor.Nombre,
+                        Rol = profesor.Rol,
+                        NombreUsuario = profesor.NombreUsuario,
+                        Contrasenia = profesor.Contrasenia,
+                        Edad = profesor.Edad,
+                        Materia = profesor.Materia,
+                    });
+                }
+            }
+            catch(Exception ex)
+            {
+                Mensaje=$"Error: {ex.Message}";
+            }
+        }
+        private async Task EliminarProfesor(int profesorId)
+        {
+            try
+            {
+                bool resultado = await _profesorRepository.EliminarProfesor(profesorId);
+                if (resultado)
+                {
+                    var profesorEliminar = Profesores.FirstOrDefault(c => c.Id == profesorId);
+                    if(profesorEliminar != null)
+                    {
+                        Profesores.Remove(profesorEliminar);
+                    }
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
             }
         }
 
