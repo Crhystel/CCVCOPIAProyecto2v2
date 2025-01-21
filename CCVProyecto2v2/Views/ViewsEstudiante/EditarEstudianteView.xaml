@@ -8,43 +8,57 @@
     </ContentPage.BindingContext>
 
     <ScrollView>
-        <StackLayout Padding="20" Spacing="15">
+        <StackLayout Padding="20" Spacing="10">
 
             <Label Text="Editar Estudiante"
                    FontSize="24"
                    HorizontalOptions="Center"
                    TextColor="Black" />
-
+            <Label Text="Nombre:"
+                    TextColor="Black"/>
             <Entry Placeholder="Nombre"
                    Text="{Binding Nombre}" 
                    HorizontalOptions="FillAndExpand"
                    TextColor="Black" />
+            <Label Text=" Edad:"
+                   TextColor="Black"/>
 
             <Entry Placeholder="Edad"
                    Text="{Binding Edad}" 
                    Keyboard="Numeric"
                    HorizontalOptions="FillAndExpand"
                    TextColor="Black" />
+            <Label Text="Cedula:"
+                   TextColor="Black"/>
 
             <Entry Placeholder="Cédula"
                    Text="{Binding Cedula}" 
                    HorizontalOptions="FillAndExpand"
                    TextColor="Black" />
+            <Label Text="Nombre de Usuario:"
+                   TextColor="Black"/>
 
             <Entry Placeholder="Nombre de Usuario"
                    Text="{Binding NombreUsuario}" 
                    HorizontalOptions="FillAndExpand"
                    TextColor="Black" />
+            <Label Text="Contraseña:"
+                   TextColor="Black"/>
 
             <Entry Placeholder="Contraseña"
                    Text="{Binding Contrasenia}" 
                    IsPassword="True"
                    HorizontalOptions="FillAndExpand"
                    TextColor="Black" />
+            <Label Text="Grado:"
+                    TextColor="Black"/>
 
             <Picker ItemsSource="{Binding GradosDisponibles}"
                     SelectedItem="{Binding Grado}"
-                    HorizontalOptions="FillAndExpand" />
+                    HorizontalOptions="FillAndExpand"
+                    Margin="10,0"
+                    TextColor="Black"
+                    BackgroundColor="White"/>
 
             <Button Text="Guardar Cambios"
                     Command="{Binding GuardarEstudianteCommand}"
@@ -52,10 +66,6 @@
                     TextColor="White"
                     HorizontalOptions="FillAndExpand" />
 
-            <Label Text="{Binding Mensaje}" 
-                   TextColor="Red"
-                   FontSize="14"
-                   HorizontalOptions="Center" />
 
         </StackLayout>
     </ScrollView>

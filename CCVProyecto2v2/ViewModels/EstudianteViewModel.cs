@@ -2,6 +2,7 @@
 using CCVProyecto2v2.Interfaces;
 using CCVProyecto2v2.Models;
 using CCVProyecto2v2.Repositories;
+using CCVProyecto2v2.Views.ViewsAdmin;
 using CCVProyecto2v2.Views.ViewsEstudiante;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
@@ -116,12 +117,12 @@ namespace CCVProyecto2v2.ViewModels
 
                 if (resultado)
                 {
-                    Mensaje = "Estudiante creado exitosamente.";
+                    await Application.Current.MainPage.DisplayAlert("Creado", "Estudiante creado exitosamente", "Ok");
                     await GetEstudiantes(); 
                 }
                 else
                 {
-                    Mensaje = "Error al crear el estudiante.";
+                    await Application.Current.MainPage.DisplayAlert("Error", "Error al crear el estudiante.", "OK");
                 }
             }
             catch (Exception ex)
@@ -189,6 +190,11 @@ namespace CCVProyecto2v2.ViewModels
                     {
                         Estudiantes.Remove(estudianteEliminar);
                     }
+                    await Application.Current.MainPage.DisplayAlert("Eliminado", "Estudiante eliminado exitosamente", "Ok");
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Error al eliminar el estudiante.", "OK");
                 }
                
             }
@@ -215,7 +221,6 @@ namespace CCVProyecto2v2.ViewModels
                 var resultado = await _estudianteRepository.ActualizarEstudiante(Id,estudianteActualizado);
                 if (resultado)
                 {
-                    Mensaje = "Cambios guardados exitosamente.";
                     var estudianteEnLista = Estudiantes.FirstOrDefault(e => e.Id == Id);
                     if (estudianteEnLista != null)
                     {
@@ -226,10 +231,12 @@ namespace CCVProyecto2v2.ViewModels
                         estudianteEnLista.NombreUsuario = NombreUsuario;
                         estudianteEnLista.Grado = Grado;
                     }
+                    await Application.Current.MainPage.DisplayAlert("Guardado", "Cambios guardados exitosamente", "Ok");
+                    await Application.Current.MainPage.Navigation.PushAsync(new VerEstudianteView());
                 }
                 else
                 {
-                    Mensaje = "Error al guardar los cambios.";
+                    await Application.Current.MainPage.DisplayAlert("Error", "Error al guardar los cambios.", "OK");
                 }
             }
             catch (Exception ex)

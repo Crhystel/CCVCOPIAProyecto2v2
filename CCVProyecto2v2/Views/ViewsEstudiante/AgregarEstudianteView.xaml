@@ -64,10 +64,6 @@
                 HorizontalOptions="FillAndExpand" 
                 Margin="10,0" />
 
-            <Label Text="{Binding Mensaje}" 
-               TextColor="Red" 
-               FontSize="14" 
-               HorizontalOptions="Center" />
 
         </StackLayout>
     </ScrollView>
