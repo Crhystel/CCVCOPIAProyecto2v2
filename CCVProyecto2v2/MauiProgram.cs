@@ -4,6 +4,7 @@ using CCVProyecto2v2.Repositories;
 using CCVProyecto2v2.ViewModels;
 using CCVProyecto2v2.Views.ViewsAdmin;
 using CCVProyecto2v2.Views.ViewsEstudiante;
+using CCVProyecto2v2.Views.ViewsProfesor;
 using CCVProyecto2v2.ViewsClase;
 using Microsoft.Extensions.Logging;
 
@@ -33,6 +34,9 @@ namespace CCVProyecto2v2
             builder.Services.AddTransient<VerProfesorView>();
             builder.Services.AddTransient<VerEstudianteView>();
             builder.Services.AddTransient<AgregarEstudianteView>();
+            builder.Services.AddTransient<AgregarProfesorView>();
+            builder.Services.AddTransient<EditarEstudianteView>();
+            builder.Services.AddTransient<EditarProfesorView>();
             builder.Services.AddTransient<CMainPage>();
 
 

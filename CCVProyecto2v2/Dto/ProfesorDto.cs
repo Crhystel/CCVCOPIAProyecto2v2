@@ -25,6 +25,6 @@ namespace CCVProyecto2v2.Dto
         [ObservableProperty]
         public int edad;
         [ObservableProperty]
-        private MateriaEnum? materia;
+        private MateriaEnum materia;
     }
 }

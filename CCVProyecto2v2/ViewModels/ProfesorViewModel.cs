@@ -111,7 +111,7 @@ namespace CCVProyecto2v2.ViewModels
                 if (resultado)
                 {
                     await Application.Current.MainPage.DisplayAlert("Creado", "Profesor creado exitosamente", "Ok");
-                    await Application.Current.MainPage.Navigation.PushAsync(new VerEstudianteView());
+                    await Application.Current.MainPage.Navigation.PushAsync(new VerProfesorView());
                     await GetProfesores();
                 }
                 else
@@ -212,16 +212,29 @@ namespace CCVProyecto2v2.ViewModels
         {
             try
             {
-                bool resultado = await _profesorRepository.EliminarProfesor(profesorId);
-                if (resultado)
+                bool confirmacion = await Application.Current.MainPage.DisplayAlert(
+                   "Aviso",
+                   "¿Estás seguro de que deseas eliminar este profesor?",
+                   "Sí",
+                   "No");
+
+                if (confirmacion)
                 {
-                    var profesorEliminar = Profesores.FirstOrDefault(c => c.Id == profesorId);
-                    if(profesorEliminar != null)
+                    bool resultado = await _profesorRepository.EliminarProfesor(profesorId);
+                    if (resultado)
                     {
-                        Profesores.Remove(profesorEliminar);
+                        var estudianteEliminar = Profesores.FirstOrDefault(c => c.Id == profesorId);
+                        if (estudianteEliminar != null)
+                        {
+                            Profesores.Remove(estudianteEliminar);
+                            await Application.Current.MainPage.DisplayAlert("Eliminado", "Profesor eliminado exitosamente", "Ok");
+                        }
+                    }
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error", "Error al eliminar el profesor.", "OK");
                     }
                 }
-                
             }
             catch (Exception ex)
             {
