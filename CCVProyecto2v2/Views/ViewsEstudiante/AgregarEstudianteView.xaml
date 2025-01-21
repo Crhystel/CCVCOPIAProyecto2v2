@@ -51,7 +51,7 @@
                TextColor="Black"/>
             <Picker 
                 ItemsSource="{Binding GradosDisponibles}"
-                SelectedItem="{Binding GradoSeleccionado}"
+                SelectedItem="{Binding Grado}"
                 HorizontalOptions="FillAndExpand"
                 Margin="10,0"
                 TextColor="Black"
