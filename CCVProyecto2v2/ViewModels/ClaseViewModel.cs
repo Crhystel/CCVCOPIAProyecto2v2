@@ -1,5 +1,7 @@
 ﻿using CCVProyecto2v2.Models;
 using CCVProyecto2v2.Repositories;
+using CCVProyecto2v2.Views.ViewsAdmin;
+using CCVProyecto2v2.Views.ViewsClase;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -103,7 +105,7 @@ namespace CCVProyecto2v2.ViewModels
                 {
                     Id = claseSeleccionada.Id;
                     Nombre = claseSeleccionada.Nombre;
-                    await Application.Current.MainPage.Navigation.PushAsync(new VerClaseView
+                    await Application.Current.MainPage.Navigation.PushAsync(new EditarClaseView
                     {
                         BindingContext = this
                     });
@@ -141,6 +143,32 @@ namespace CCVProyecto2v2.ViewModels
                     {
                         await Application.Current.MainPage.DisplayAlert("Error", "Error al eliminar el estudiante.", "OK");
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", $"Error: {ex.Message}", "OK");
+            }
+        }
+        private async Task GuardarCambios()
+        {
+            try
+            {
+                var claseActualizada = new Clase
+                {
+                    Id = Id,
+                    Nombre = Nombre
+                };
+                var resultado = await _claseRepository.ActualizarClase(Id, claseActualizada);
+                if (resultado)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Actualizado", "Clase actualizada exitosamente", "Ok");
+                    await Application.Current.MainPage.Navigation.PushAsync(new VerClaseView());
+                    await GetClases();
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Error al actualizar clase", "Ok");
                 }
             }
             catch (Exception ex)

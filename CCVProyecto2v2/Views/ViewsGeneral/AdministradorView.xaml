@@ -63,11 +63,14 @@
                             Clicked="UnirEstudiante_Clicked" Margin="20,10,10,10"></Button>
                     </VerticalStackLayout>
                 </Frame>
-                <Button x:Name="butun" 
-                    Text="Crear Clase"
-                        BackgroundColor="Black"
-                        TextColor="White"
-                        Clicked="butun_Clicked"/>
+                <Frame Grid.Row="3" Grid.Column="3">
+                    <Button x:Name="butun" 
+                            Text="Crear Clase"
+                            BackgroundColor="Black"
+                            TextColor="White"
+                            Clicked="butun_Clicked"/>
+                </Frame>
+                
             </Grid>
         </VerticalStackLayout>
     </ScrollView>

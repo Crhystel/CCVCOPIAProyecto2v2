@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CCVProyecto2v2.Views.ViewsClase.AgregarClaseView">
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+
+            <Label Text="Agregar Estudiante" 
+           FontSize="24" 
+           HorizontalOptions="Center" 
+           TextColor="Black" />
+
+            <Entry Placeholder="Nombre" 
+           Text="{Binding Nombre}" 
+           HorizontalOptions="FillAndExpand" 
+           Margin="10,0"
+           TextColor="Black" 
+           PlaceholderColor="Gray" />
+            
+            <Button Text="Agregar Estudiante" 
+            Command="{Binding CrearClaseCommand}" 
+            BackgroundColor="Black" 
+            TextColor="White" 
+            HorizontalOptions="FillAndExpand" 
+            Margin="10,0" />
+
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
