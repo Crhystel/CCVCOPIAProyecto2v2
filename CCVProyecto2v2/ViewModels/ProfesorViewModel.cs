@@ -224,10 +224,10 @@ namespace CCVProyecto2v2.ViewModels
                     bool resultado = await _profesorRepository.EliminarProfesor(profesorId);
                     if (resultado)
                     {
-                        var estudianteEliminar = Profesores.FirstOrDefault(c => c.Id == profesorId);
-                        if (estudianteEliminar != null)
+                        var profesorEliminar = Profesores.FirstOrDefault(c => c.Id == profesorId);
+                        if (profesorEliminar != null)
                         {
-                            Profesores.Remove(estudianteEliminar);
+                            Profesores.Remove(profesorEliminar);
                             await Application.Current.MainPage.DisplayAlert("Eliminado", "Profesor eliminado exitosamente", "Ok");
                         }
                     }

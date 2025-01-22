@@ -162,21 +162,28 @@ namespace CCVProyecto2v2.ViewModels
                   
         private async Task ActualizarEstudiante(int estudianteId)
         {
-            var estudiante = await _estudianteRepository.GetEstudiantes();
-            var estudianteSeleccionado = estudiante.FirstOrDefault(c => c.Id == estudianteId);
-            if (estudianteSeleccionado != null)
+            try
             {
-                Id = estudianteSeleccionado.Id;
-                Nombre = estudianteSeleccionado.Nombre;
-                Edad = estudianteSeleccionado.Edad;
-                Cedula = estudianteSeleccionado.Cedula;
-                Contrasenia = estudianteSeleccionado.Contrasenia;
-                NombreUsuario = estudianteSeleccionado.NombreUsuario;
-                Grado = estudianteSeleccionado.Grado;
-                await Application.Current.MainPage.Navigation.PushAsync(new EditarEstudianteView
+                var estudiante = await _estudianteRepository.GetEstudiantes();
+                var estudianteSeleccionado = estudiante.FirstOrDefault(c => c.Id == estudianteId);
+                if (estudianteSeleccionado != null)
                 {
-                    BindingContext = this
-                });
+                    Id = estudianteSeleccionado.Id;
+                    Nombre = estudianteSeleccionado.Nombre;
+                    Edad = estudianteSeleccionado.Edad;
+                    Cedula = estudianteSeleccionado.Cedula;
+                    Contrasenia = estudianteSeleccionado.Contrasenia;
+                    NombreUsuario = estudianteSeleccionado.NombreUsuario;
+                    Grado = estudianteSeleccionado.Grado;
+                    await Application.Current.MainPage.Navigation.PushAsync(new EditarEstudianteView
+                    {
+                        BindingContext = this
+                    });
+                }
+            }
+            catch(Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", $"Error: {ex.Message}", "OK");
             }
         }
         private async Task EliminarEstudiante(int estudianteId)

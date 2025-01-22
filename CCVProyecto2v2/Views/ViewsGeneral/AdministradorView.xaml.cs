@@ -29,6 +29,9 @@ public partial class AdministradorView : ContentPage
     {
         Navigation.PushAsync(new CMainPage());
     }
-      
-    
+
+    private void butun_Clicked(object sender, EventArgs e)
+    {
+
+    }
 }
