@@ -31,13 +31,15 @@ namespace CCVProyecto2v2
             builder.Services.AddSingleton<ProfesorViewModel>();
             builder.Services.AddSingleton<IClase, ClaseRepository>();
             builder.Services.AddSingleton<ClaseViewModel>();
+            builder.Services.AddSingleton<IClaseEstudiante, ClaseEstudianteRepository>();
+            builder.Services.AddSingleton<ClaseEstudianteViewModel>();
 
-            builder.Services.AddTransient<VerProfesorView>();
-            builder.Services.AddTransient<VerEstudianteView>();
-            builder.Services.AddTransient<AgregarEstudianteView>();
-            builder.Services.AddTransient<AgregarProfesorView>();
-            builder.Services.AddTransient<EditarEstudianteView>();
-            builder.Services.AddTransient<EditarProfesorView>();
+            //builder.Services.AddTransient<VerProfesorView>();
+            //builder.Services.AddTransient<VerEstudianteView>();
+            //builder.Services.AddTransient<AgregarEstudianteView>();
+            //builder.Services.AddTransient<AgregarProfesorView>();
+            //builder.Services.AddTransient<EditarEstudianteView>();
+            //builder.Services.AddTransient<EditarProfesorView>();
 
 
 

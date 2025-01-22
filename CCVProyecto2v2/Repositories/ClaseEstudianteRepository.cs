@@ -45,7 +45,7 @@ namespace CCVProyecto2v2.Repositories
         {
             try
             {
-                string url = $"http://localhost:5057/api/ClaseEstudiantes?claseId={claseId}&estudianteId={estudianteId}";
+                string url = "http://localhost:5057/api/ClaseEstudiantes/";
                 var body = new
                 {
                     id = 0,
@@ -77,7 +77,7 @@ namespace CCVProyecto2v2.Repositories
             {
                 string url = $"http://localhost:5057/api/ClaseEstudiantes?ceId={claseEstudianteId}";
                 HttpResponseMessage response = await _httpClient.DeleteAsync(url);
-                if(response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
                     return true;
                 }
@@ -91,6 +91,7 @@ namespace CCVProyecto2v2.Repositories
                 Console.WriteLine($"Exception: {ex.Message}");
                 return false;
             }
+        }
 
         public async Task<List<ClaseEstudiante>> GetClaseEstudiantes()
         {

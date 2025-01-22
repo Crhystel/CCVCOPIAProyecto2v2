@@ -71,7 +71,7 @@
 	  <MauiXaml Update="Views\ViewClaseEstudiante\AgregarClaseEstudianteView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\ViewClaseEstudiante\EditarClaseEstudiante.xaml">
+	  <MauiXaml Update="Views\ViewClaseEstudiante\EditarClaseEstudianteView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ViewLogin\LoginView.xaml">

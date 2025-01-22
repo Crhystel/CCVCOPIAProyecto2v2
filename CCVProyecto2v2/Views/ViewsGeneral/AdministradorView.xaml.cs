@@ -25,7 +25,7 @@ public partial class AdministradorView : ContentPage
         }
     public void UnirEstudiante_Clicked(object sender, EventArgs e)
     {
-        Navigation.PushAsync(new VerEstudianteView());
+        Navigation.PushAsync(new VerClaseEstudianteView());
     }
 
     private void butun_Clicked(object sender, EventArgs e)

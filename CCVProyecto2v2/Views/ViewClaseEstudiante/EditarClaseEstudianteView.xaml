@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CCVProyecto2v2.Views.ViewClaseEstudiante.EditarClaseEstudianteView"
+             xmlns:viewmodel="clr-namespace:CCVProyecto2v2.ViewModels">
+    <ContentPage.BindingContext>
+        <viewmodel:ClaseEstudianteViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="10">
+
+            <Label Text="Editar Estudiante"
+               FontSize="24"
+               HorizontalOptions="Center"
+               TextColor="Black" />
+            <Label Text="Clase Id:"
+                TextColor="Black"/>
+            <Entry Placeholder="ClaseId"
+               Text="{Binding ClaseId}" 
+               HorizontalOptions="FillAndExpand"
+               TextColor="Black" />
+            <Label Text=" Estudiante Id:"
+               TextColor="Black"/>
+
+            <Entry Placeholder="EstudinateId"
+               Text="{Binding EstudianteId}" 
+               Keyboard="Numeric"
+               HorizontalOptions="FillAndExpand"
+               TextColor="Black" />
+           
+
+            <Button Text="Guardar Cambios"
+                Command="{Binding GuardarClaseEstudianteCommand}"
+                BackgroundColor="Black"
+                TextColor="White"
+                HorizontalOptions="FillAndExpand" />
+
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
