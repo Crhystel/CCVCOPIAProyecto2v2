@@ -5,19 +5,15 @@ namespace CCVProyecto2v2
 {
     public partial class AppShell : Shell
     {
+        public Command NavigateToInicioCommand { get; }
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute(nameof(InicioView), typeof(InicioView));
-            Routing.RegisterRoute(nameof(SoporteView), typeof(SoporteView));
+            NavigateToInicioCommand = new Command(async () =>
+            {
+                await Shell.Current.GoToAsync("//InicioView"); 
+            });
+            BindingContext = this;
         }
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            var currentShell = Shell.Current;
-        }
-
-
     }
 }
