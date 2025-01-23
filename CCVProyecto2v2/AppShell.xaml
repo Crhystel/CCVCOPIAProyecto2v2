@@ -26,15 +26,11 @@
             </Grid>
         </DataTemplate>
     </Shell.ItemTemplate>
-    
+
     <FlyoutItem Title="Inicio" FlyoutIcon="iconhome.png">
-        <ShellContent>
-            <ShellContent.Command>
-                <Binding Path="NavigateToInicioCommand" />
-            </ShellContent.Command>
-        </ShellContent>
+        <ShellContent ContentTemplate="{DataTemplate local:InicioView}" Route="InicioView"  />
     </FlyoutItem>
-    
+
     <FlyoutItem Title="Soporte" FlyoutIcon="iconsoporte.png">
         <ShellContent ContentTemplate="{DataTemplate local:SoporteView}" Route="SoporteView" />
     </FlyoutItem>
