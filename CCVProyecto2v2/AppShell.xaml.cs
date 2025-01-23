@@ -9,17 +9,18 @@ namespace CCVProyecto2v2
             InitializeComponent();
             
         }
-        protected override void OnNavigating(ShellNavigatingEventArgs args)
+        protected override void OnNavigated(ShellNavigatedEventArgs args)
         {
-            base.OnNavigating(args);
+            base.OnNavigated(args);
 
-            if (args.Target.Location.OriginalString != "//InicioView")
+            
+            if (args.Current.Location.OriginalString == "//InicioView")
             {
-             
-                args.Cancel();
-                Shell.Current.GoToAsync("//InicioView");
+                
+                Console.WriteLine("El usuario ya está en la página de inicio.");
             }
         }
+
 
 
     }
