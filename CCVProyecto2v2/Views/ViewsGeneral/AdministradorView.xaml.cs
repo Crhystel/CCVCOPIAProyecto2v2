@@ -21,7 +21,7 @@ public partial class AdministradorView : ContentPage
     }
         public void CrearCurso_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new VerEstudianteView());
+            Navigation.PushAsync(new VerClaseProfesorView());
         }
     public void UnirEstudiante_Clicked(object sender, EventArgs e)
     {

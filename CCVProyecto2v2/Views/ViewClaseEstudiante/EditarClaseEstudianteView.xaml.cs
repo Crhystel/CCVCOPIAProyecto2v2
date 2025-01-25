@@ -9,10 +9,8 @@ public partial class EditarClaseEstudianteView : ContentPage
     public EditarClaseEstudianteView()
 	{
         InitializeComponent();
-        _viewModel = new ClaseEstudianteViewModel(
-        new ClaseEstudianteRepository(new HttpClient()),
-        new ClaseRepository(new HttpClient()),
-        new EstudianteRepository(new HttpClient()));
+        _viewModel = new ClaseEstudianteViewModel(new ClaseEstudianteRepository(new HttpClient()),
+        new ClaseRepository(new HttpClient()), new EstudianteRepository(new HttpClient()));
         BindingContext = _viewModel;
         _viewModel.CargarDatosPickers();
     }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CCVProyecto2v2.Views.ViewClaseProfesor.AgregarClaseProfesorView"
+             >
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+
+            <Label Text="Unir profesor a clase" 
+       FontSize="24" 
+       HorizontalOptions="Center" 
+       TextColor="Black" />
+
+            <Label Text="Clases: "
+               TextColor="Black"/>
+            <Picker ItemsSource="{Binding Clases}"
+                ItemDisplayBinding="{Binding Nombre}"
+                SelectedItem="{Binding SelectedClase}" 
+                BackgroundColor="White"
+                TextColor="Black"/>
+            <Label Text="Profesores: "
+               TextColor="Black"/>
+            <Picker ItemsSource="{Binding Profesors}"
+                ItemDisplayBinding="{Binding Nombre}"
+                SelectedItem="{Binding SelectedProfesor}"
+                BackgroundColor="White"
+                TextColor="Black"/>
+            <Button Text="Unir" 
+                Command="{Binding CrearClaseProfesorCommand}" 
+                BackgroundColor="Black" 
+                TextColor="White" 
+                HorizontalOptions="FillAndExpand" 
+                Margin="10,0" />
+
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
