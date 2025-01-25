@@ -18,7 +18,7 @@ namespace CCVProyecto2v2.ViewModels
 
         public ObservableCollection<EstudianteDto> Estudiantes { get; set; }
         public List<GradoEnum> GradosDisponibles { get; } = Enum.GetValues(typeof(GradoEnum)).Cast<GradoEnum>().ToList();
-       
+
         public ICommand CrearEstudianteCommand { get; }
         public ICommand EliminarEstudianteCommand { get; }
         public ICommand ActualizarEstudianteCommand { get; }
@@ -32,6 +32,7 @@ namespace CCVProyecto2v2.ViewModels
         private string _nombreUsuario;
         private string _mensaje;
         private GradoEnum _grado;
+
 
         public int Id
         {
@@ -82,7 +83,6 @@ namespace CCVProyecto2v2.ViewModels
                 OnPropertyChanged();
             }
         }
-
         public EstudianteViewModel(EstudianteRepository estudianteRepository)
         {
             _estudianteRepository = estudianteRepository;
@@ -108,8 +108,8 @@ namespace CCVProyecto2v2.ViewModels
                     Cedula = Cedula,
                     Contrasenia = Contrasenia,
                     NombreUsuario = NombreUsuario,
-                    Grado=Grado,
-                    
+                    Grado=Grado
+
                 };
 
 
@@ -149,7 +149,7 @@ namespace CCVProyecto2v2.ViewModels
                         NombreUsuario = estudiante.NombreUsuario,
                         Contrasenia = estudiante.Contrasenia,
                         Edad = estudiante.Edad,
-                        Grado = estudiante.Grado,
+                        Grado = estudiante.Grado
                     });
                 }
             }
@@ -232,7 +232,7 @@ namespace CCVProyecto2v2.ViewModels
                     Cedula = Cedula,
                     Contrasenia = Contrasenia,
                     NombreUsuario = NombreUsuario,
-                    Grado = Grado,
+                    Grado = Grado
                 };
                 var resultado = await _estudianteRepository.ActualizarEstudiante(Id,estudianteActualizado);
                 if (resultado)

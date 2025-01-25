@@ -26,8 +26,6 @@
            TextColor="Black" 
            PlaceholderColor="Gray" />
 
-           
-
             <Button Text="Unir" 
             Command="{Binding CrearClaseEstudianteCommand}" 
             BackgroundColor="Black" 

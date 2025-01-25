@@ -41,18 +41,12 @@ namespace CCVProyecto2v2.Repositories
             }
         }
 
-        public async Task<bool> CrearClaseEstudiante(int claseId, int estudianteId)
+        public async Task<bool> CrearClaseEstudiante(ClaseEstudiante claseEstudiante)
         {
             try
             {
                 string url = "http://localhost:5057/api/ClaseEstudiantes/";
-                var body = new
-                {
-                    id = 0,
-                    claseId = claseId,
-                    estudianteId = estudianteId
-                };
-                var claseEstudianteJson = JsonSerializer.Serialize(body);
+                var claseEstudianteJson = JsonSerializer.Serialize(claseEstudiante);
                 var content = new StringContent(claseEstudianteJson, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await _httpClient.PostAsync(url, content);
                 if (response.IsSuccessStatusCode)

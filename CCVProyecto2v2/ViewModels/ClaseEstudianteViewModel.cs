@@ -63,8 +63,13 @@ namespace CCVProyecto2v2.ViewModels
         {
             try
             {
-                
-                var resultado=await _claseEstudianteRepository.CrearClaseEstudiante(ClaseId,EstudianteId);
+                var nuevaClaseEstudiante = new ClaseEstudiante
+                {
+                    Id = 0,
+                    ClaseId=ClaseId,
+                    EstudianteId=EstudianteId
+                };
+                var resultado=await _claseEstudianteRepository.CrearClaseEstudiante(nuevaClaseEstudiante);
                 if (resultado)
                 {
                     await Application.Current.MainPage.DisplayAlert("Creado", "ClaseEstudiante creada exitosamente", "Ok");
