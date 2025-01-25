@@ -22,6 +22,10 @@ namespace CCVProyecto2v2.Dto
 
         [ObservableProperty]
         public EstudianteDto estudiante;
+        [ObservableProperty]
+        public string estudianteNombre;
+        [ObservableProperty]
+        public string claseNombre;
         public List<EstudianteDto> Estudiantes { get; set; } = new();
     
     }

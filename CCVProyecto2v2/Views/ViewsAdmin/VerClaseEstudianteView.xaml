@@ -32,18 +32,18 @@
                             <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*,Auto">
 
                                 <Label Grid.Row="0" Grid.Column="0"
-                                       Text="Id clase:"
+                                       Text="Clase: "
                                        FontAttributes="Bold" 
                                        TextColor="Black" />
                                 <Label Grid.Row="0" Grid.Column="1"
-                                       Text="{Binding ClaseId}" 
+                                       Text="{Binding ClaseNombre}" 
                                        TextColor="Black" />
                                 <Label Grid.Row="1" Grid.Column="0"
-                                       Text="Id estudiante:"
+                                       Text="Estudiante unido:"
                                        FontAttributes="Bold" 
                                        TextColor="Black" />
                                 <Label Grid.Row="1" Grid.Column="1"
-                                       Text="{Binding EstudianteId} " 
+                                       Text="{Binding EstudianteNombre} " 
                                        TextColor="Black" />
                                 <Label Grid.Row="3" Grid.Column="3" Padding="10,5,0,5"
                                        Text="Eliminar"

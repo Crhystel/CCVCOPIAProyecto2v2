@@ -27,6 +27,8 @@ namespace CCVProyecto2v2.ViewModels
         private int _id;
         private int _claseId;
         private int _estudianteId;
+        private string _estudianteNombre;
+        private string _claseNombre;
 
         public int Id
         {
@@ -43,6 +45,16 @@ namespace CCVProyecto2v2.ViewModels
         {
             get => _estudianteId;
             set { _estudianteId = value; OnPropertyChanged(); }
+        }
+        public string EstudianteNombre
+        {
+            get => _estudianteNombre;
+            set { _estudianteNombre = value;OnPropertyChanged(); }
+        }
+        public string ClaseNombre
+        {
+            get => _claseNombre;
+            set { _claseNombre = value;OnPropertyChanged(); }
         }
 
         public ClaseEstudianteViewModel(ClaseEstudianteRepository claseEstudianteRepository)
@@ -67,7 +79,9 @@ namespace CCVProyecto2v2.ViewModels
                 {
                     Id = 0,
                     ClaseId=ClaseId,
-                    EstudianteId=EstudianteId
+                    EstudianteId=EstudianteId,
+                    ClaseNombre=ClaseNombre,
+                    EstudianteNombre=EstudianteNombre
                 };
                 var resultado=await _claseEstudianteRepository.CrearClaseEstudiante(nuevaClaseEstudiante);
                 if (resultado)
@@ -98,7 +112,9 @@ namespace CCVProyecto2v2.ViewModels
                     {
                         Id = claseEstudiante.Id,
                         ClaseId = claseEstudiante.ClaseId,
-                        EstudianteId = claseEstudiante.EstudianteId
+                        EstudianteId = claseEstudiante.EstudianteId,
+                        EstudianteNombre = claseEstudiante.EstudianteNombre,
+                        ClaseNombre = claseEstudiante.ClaseNombre
                     });
                 }
             }
@@ -118,6 +134,8 @@ namespace CCVProyecto2v2.ViewModels
                     Id= claseEstudianteSeleccionada.Id;
                     ClaseId = claseEstudianteSeleccionada.ClaseId;
                     EstudianteId = claseEstudianteSeleccionada.EstudianteId;
+                    EstudianteNombre = claseEstudianteSeleccionada.EstudianteNombre;
+                    ClaseNombre = claseEstudianteSeleccionada.ClaseNombre;
                     await Application.Current.MainPage.Navigation.PushAsync(new EditarClaseEstudianteView
                     {
                         BindingContext = this
@@ -169,7 +187,9 @@ namespace CCVProyecto2v2.ViewModels
                 {
                     Id = Id,
                     ClaseId = ClaseId,
-                    EstudianteId = EstudianteId
+                    EstudianteId = EstudianteId,
+                    ClaseNombre=ClaseNombre,
+                    EstudianteNombre=EstudianteNombre
                 };
                 var resultado = await _claseEstudianteRepository.ActualizarClaseEstudiante(Id, claseEstudianteActualizada);
                 if (resultado)

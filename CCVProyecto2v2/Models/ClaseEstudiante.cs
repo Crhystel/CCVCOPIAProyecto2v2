@@ -15,5 +15,7 @@ namespace CCVProyecto2v2.Models
         public Clase Clase { get; set; }
         public int EstudianteId { get; set; }
         public Estudiante Estudiante { get; set; }
+        public string ClaseNombre { get; set; }
+        public string EstudianteNombre { get; set; }
     }
 }
