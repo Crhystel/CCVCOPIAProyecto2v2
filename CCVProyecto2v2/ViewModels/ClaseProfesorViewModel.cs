@@ -120,7 +120,7 @@ namespace CCVProyecto2v2.ViewModels
                 var nuevaClaseProfesor = new ClaseProfesor
                 {
                     Id = Id,
-                    ClaseId = SelectedClase.Id,
+                    ClasePId = SelectedClase.Id,
                     ProfesorId = SelectedProfesor.Id,
                     ClaseNombre = SelectedClase.Nombre,
                     ProfesorNombre = SelectedProfesor.Nombre
@@ -153,7 +153,7 @@ namespace CCVProyecto2v2.ViewModels
                     ClaseProfesores.Add(new ClaseProfesor
                     {
                         Id = claseProfesor.Id,
-                        ClaseId = claseProfesor.ClaseId,
+                        ClasePId = claseProfesor.ClasePId,
                         ProfesorId = claseProfesor.ProfesorId,
                         ProfesorNombre = claseProfesor.ProfesorNombre,
                         ClaseNombre = claseProfesor.ClaseNombre
@@ -175,13 +175,13 @@ namespace CCVProyecto2v2.ViewModels
                 if (claseProfesorSeleccionada != null)
                 {
                     Id = claseProfesorSeleccionada.Id;
-                    ClaseId = claseProfesorSeleccionada.ClaseId;
+                    ClaseId = claseProfesorSeleccionada.ClasePId;
                     ProfesorId = claseProfesorSeleccionada.ProfesorId;
                     ProfesorNombre = claseProfesorSeleccionada.ProfesorNombre;
                     ClaseNombre = claseProfesorSeleccionada.ClaseNombre;
 
                     SelectedProfesor = Profesors.FirstOrDefault(e => e.Id == claseProfesorSeleccionada.ProfesorId);
-                    SelectedClase = Clases.FirstOrDefault(c => c.Id == claseProfesorSeleccionada.ClaseId);
+                    SelectedClase = Clases.FirstOrDefault(c => c.Id == claseProfesorSeleccionada.ClasePId);
                     await Application.Current.MainPage.Navigation.PushAsync(new EditarClaseProfesorView
                     {
                         BindingContext = this
@@ -232,7 +232,7 @@ namespace CCVProyecto2v2.ViewModels
                 var claseProfesorActualizada = new ClaseProfesor
                 {
                     Id = Id,
-                    ClaseId = ClaseId,
+                    ClasePId = ClaseId,
                     ProfesorId = ProfesorId,
                     ClaseNombre = ClaseNombre,
                     ProfesorNombre = ProfesorNombre
@@ -243,7 +243,7 @@ namespace CCVProyecto2v2.ViewModels
                     var claseProfesorExistente = ClaseProfesores.FirstOrDefault(c => c.Id == Id);
                     if (claseProfesorExistente != null)
                     {
-                        claseProfesorExistente.ClaseId = ClaseId;
+                        claseProfesorExistente.ClasePId = ClaseId;
                         claseProfesorExistente.ProfesorId = ProfesorId;
                         claseProfesorExistente.ClaseNombre = ClaseNombre;
                         claseProfesorExistente.ProfesorNombre = ProfesorNombre;
