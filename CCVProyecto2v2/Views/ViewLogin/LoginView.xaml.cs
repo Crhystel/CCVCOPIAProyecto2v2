@@ -5,6 +5,8 @@ namespace CCVProyecto2v2.ViewLogin;
 
 public partial class LoginView : ContentPage
 {
+    readonly ILoginRepository _loginRepository = new LoginService();
+
     public LoginView()
     {
         InitializeComponent();
@@ -61,7 +63,7 @@ public partial class LoginView : ContentPage
 
     private async void Ingresar_Clicked(object sender, EventArgs e)
     {
-        string usuario = UsuarioEntry.Text;
+        /*string usuario = UsuarioEntry.Text;
         string contrasenia = ContraseniaEntry.Text;
 
         // Verificar credenciales quemadas
@@ -80,6 +82,41 @@ public partial class LoginView : ContentPage
         else
         {
             await DisplayAlert("Error", "Usuario o contraseña incorrectos", "OK");
+        }*/
+        string usuario = UsuarioEntry.Text;
+        string contrasenia = ContraseniaEntry.Text;
+
+        if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(contrasenia))
+        {
+            await DisplayAlert("Advertencia", "Por favor ingresar usuario y contraseña", "Ok");
+            return;
+        }
+
+
+        Usuario userInfo = await _loginRepository.Login(usuario, contrasenia);
+
+        if (userInfo != null)
+        {
+
+            switch (userInfo.RolUsuario)
+            {
+                case 1:
+                    await Navigation.PushAsync(new AdministradorView());
+                    break;
+                case 2:
+                    await Navigation.PushAsync(new ProfesorView());
+                    break;
+                case 3:
+                    await Navigation.PushAsync(new EstudianteView());
+                    break;
+                default:
+                    await DisplayAlert("Advertencia", "Rol no reconocido", "Ok");
+                    break;
+            }
+        }
+        else
+        {
+            await DisplayAlert("Advertencia", "El usuario o contraseña son incorrectos", "Ok");
         }
     }
 
