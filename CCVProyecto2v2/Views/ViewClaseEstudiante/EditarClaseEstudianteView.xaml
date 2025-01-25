@@ -11,25 +11,21 @@
         <StackLayout Padding="20" Spacing="10">
 
             <Label Text="Editar Estudiante"
-               FontSize="24"
-               HorizontalOptions="Center"
-               TextColor="Black" />
-            <Label Text="Clase Id:"
-                TextColor="Black"/>
-            <Entry Placeholder="ClaseId"
-               Text="{Binding ClaseId}" 
-               HorizontalOptions="FillAndExpand"
-               TextColor="Black" />
-            <Label Text=" Estudiante Id:"
-               TextColor="Black"/>
-
-            <Entry Placeholder="EstudinateId"
-               Text="{Binding EstudianteId}" 
-               Keyboard="Numeric"
-               HorizontalOptions="FillAndExpand"
-               TextColor="Black" />
-
-
+                   FontSize="24"
+                   HorizontalOptions="Center"
+                   TextColor="Black" />
+            <Picker ItemsSource="{Binding Clases}"
+                    ItemDisplayBinding="{Binding Nombre}"
+                    SelectedItem="{Binding SelectedClase}" 
+                    BackgroundColor="White"
+                    TextColor="Black"/>
+            <Label Text="Estudiantes: "
+                   TextColor="Black"/>
+            <Picker ItemsSource="{Binding Estudiantes}"
+                    ItemDisplayBinding="{Binding Nombre}"
+                    SelectedItem="{Binding SelectedEstudiante}"
+                    BackgroundColor="White"
+                    TextColor="Black"/>
             <Button Text="Guardar Cambios"
                 Command="{Binding GuardarClaseEstudianteCommand}"
                 BackgroundColor="Black"

@@ -66,12 +66,28 @@ namespace CCVProyecto2v2.ViewModels
         public Clase SelectedClase
         {
             get => _selectedClase;
-            set { _selectedClase = value; OnPropertyChanged(); }
+            set
+            {
+                if (_selectedClase != value)
+                {
+                    _selectedClase = value;
+                    ClaseId=_selectedClase?.Id ?? 0;
+                    OnPropertyChanged();
+                }
+            }
         }
         public Estudiante SelectedEstudiante
         {
             get => _selectedEstudiante;
-            set { _selectedEstudiante = value; OnPropertyChanged(); }
+            set
+            {
+                if (_selectedEstudiante != value)
+                {
+                    _selectedEstudiante = value;
+                    EstudianteId = _selectedEstudiante?.Id ?? 0;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         public ClaseEstudianteViewModel(ClaseEstudianteRepository claseEstudianteRepository,
@@ -103,7 +119,7 @@ namespace CCVProyecto2v2.ViewModels
                 }
                 var nuevaClaseEstudiante = new ClaseEstudiante
                 {
-                    Id = 0,
+                    Id = Id,
                     ClaseId=SelectedClase.Id,
                     EstudianteId=SelectedEstudiante.Id,
                     ClaseNombre=SelectedClase.Nombre,
@@ -153,15 +169,19 @@ namespace CCVProyecto2v2.ViewModels
         {
             try
             {
+                await CargarDatosPickers();
                 var claseEstudiante= await _claseEstudianteRepository.GetClaseEstudiantes();
-                var claseEstudianteSeleccionada= claseEstudiante.FirstOrDefault(c => c.Id == ceId);
+                var claseEstudianteSeleccionada = claseEstudiante.FirstOrDefault(c => c.Id == ceId);
                 if (claseEstudianteSeleccionada != null)
                 {
                     Id= claseEstudianteSeleccionada.Id;
                     ClaseId = claseEstudianteSeleccionada.ClaseId;
                     EstudianteId = claseEstudianteSeleccionada.EstudianteId;
-                    //EstudianteNombre = claseEstudianteSeleccionada.EstudianteNombre;
-                    //ClaseNombre = claseEstudianteSeleccionada.ClaseNombre;
+                    EstudianteNombre = claseEstudianteSeleccionada.EstudianteNombre;
+                    ClaseNombre = claseEstudianteSeleccionada.ClaseNombre;
+
+                    SelectedEstudiante = Estudiantes.FirstOrDefault(e => e.Id == claseEstudianteSeleccionada.EstudianteId);
+                    SelectedClase = Clases.FirstOrDefault(c => c.Id == claseEstudianteSeleccionada.ClaseId);
                     await Application.Current.MainPage.Navigation.PushAsync(new EditarClaseEstudianteView
                     {
                         BindingContext = this
