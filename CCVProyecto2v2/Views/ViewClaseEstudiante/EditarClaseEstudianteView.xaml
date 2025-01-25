@@ -28,7 +28,7 @@
                Keyboard="Numeric"
                HorizontalOptions="FillAndExpand"
                TextColor="Black" />
-           
+
 
             <Button Text="Guardar Cambios"
                 Command="{Binding GuardarClaseEstudianteCommand}"

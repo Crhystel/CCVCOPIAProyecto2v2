@@ -8,8 +8,11 @@ public partial class EditarClaseEstudianteView : ContentPage
 	private readonly ClaseEstudianteViewModel _viewModel;
     public EditarClaseEstudianteView()
 	{
-		InitializeComponent();
-        _viewModel = new ClaseEstudianteViewModel(new ClaseEstudianteRepository(new HttpClient()));
+        InitializeComponent();
+        var claseEstudianteRepository = new ClaseEstudianteRepository(new HttpClient());
+        var claseRepository = new ClaseRepository(new HttpClient());
+        var estudianteRepository = new EstudianteRepository(new HttpClient());
+        _viewModel = new ClaseEstudianteViewModel(claseEstudianteRepository, claseRepository, estudianteRepository);
         BindingContext = _viewModel;
     }
 }

@@ -11,27 +11,26 @@
            HorizontalOptions="Center" 
            TextColor="Black" />
 
-            <Entry Placeholder="Clase Id" 
-           Text="{Binding ClaseId}" 
-           HorizontalOptions="FillAndExpand" 
-           Margin="10,0"
-           TextColor="Black" 
-           PlaceholderColor="Gray" />
-
-            <Entry Placeholder="Estudiante Id" 
-           Text="{Binding EstudianteId}" 
-           Keyboard="Numeric" 
-           HorizontalOptions="FillAndExpand" 
-           Margin="10,0"
-           TextColor="Black" 
-           PlaceholderColor="Gray" />
-
+            <Label Text="Clases: "
+                   TextColor="Black"/>
+            <Picker ItemsSource="{Binding Clases}"
+                    ItemDisplayBinding="{Binding Nombre}"
+                    SelectedItem="{Binding SelectedClase}" 
+                    BackgroundColor="White"
+                    TextColor="Black"/>
+            <Label Text="Estudiantes: "
+                   TextColor="Black"/>
+            <Picker ItemsSource="{Binding Estudiantes}"
+                    ItemDisplayBinding="{Binding Nombre}"
+                    SelectedItem="{Binding SelectedEstudiante}"
+                    BackgroundColor="White"
+                    TextColor="Black"/>
             <Button Text="Unir" 
-            Command="{Binding CrearClaseEstudianteCommand}" 
-            BackgroundColor="Black" 
-            TextColor="White" 
-            HorizontalOptions="FillAndExpand" 
-            Margin="10,0" />
+                    Command="{Binding CrearClaseEstudianteCommand}" 
+                    BackgroundColor="Black" 
+                    TextColor="White" 
+                    HorizontalOptions="FillAndExpand" 
+                    Margin="10,0" />
 
 
         </StackLayout>

@@ -1,4 +1,5 @@
-﻿using CCVProyecto2v2.Models;
+﻿using CCVProyecto2v2.Dto;
+using CCVProyecto2v2.Models;
 using CCVProyecto2v2.Repositories;
 using CCVProyecto2v2.Views.ViewClaseEstudiante;
 using CCVProyecto2v2.Views.ViewsAdmin;
@@ -18,7 +19,11 @@ namespace CCVProyecto2v2.ViewModels
     public partial class ClaseEstudianteViewModel:INotifyPropertyChanged
     {
         private readonly ClaseEstudianteRepository _claseEstudianteRepository;
+        private readonly ClaseRepository _claseRepository;
+        private readonly EstudianteRepository _estudianteRepository;
         public ObservableCollection<ClaseEstudiante> ClaseEstudiantes {  get; set; }
+        public ObservableCollection<Estudiante> Estudiantes { get; set; } = new ObservableCollection<Estudiante>();
+        public ObservableCollection<Clase> Clases { get; set; } = new ObservableCollection<Clase>();
         public ICommand CrearClaseEstudianteCommand {  get; } 
         public ICommand EliminarClaseEstudianteCommand { get; }
         public ICommand ActualizarClaseEstudianteCommand { get; }
@@ -29,6 +34,8 @@ namespace CCVProyecto2v2.ViewModels
         private int _estudianteId;
         private string _estudianteNombre;
         private string _claseNombre;
+        private Clase _selectedClase;
+        private Estudiante _selectedEstudiante;
 
         public int Id
         {
@@ -56,16 +63,30 @@ namespace CCVProyecto2v2.ViewModels
             get => _claseNombre;
             set { _claseNombre = value;OnPropertyChanged(); }
         }
+        public Clase SelectedClase
+        {
+            get => _selectedClase;
+            set { _selectedClase = value; OnPropertyChanged(); }
+        }
+        public Estudiante SelectedEstudiante
+        {
+            get => _selectedEstudiante;
+            set { _selectedEstudiante = value; OnPropertyChanged(); }
+        }
 
-        public ClaseEstudianteViewModel(ClaseEstudianteRepository claseEstudianteRepository)
+        public ClaseEstudianteViewModel(ClaseEstudianteRepository claseEstudianteRepository,
+            ClaseRepository claseRepository,
+            EstudianteRepository estudianteRepository)
         {
             _claseEstudianteRepository = claseEstudianteRepository;
-            ClaseEstudiantes=new ObservableCollection<ClaseEstudiante>();
+            _claseRepository = claseRepository;
+            _estudianteRepository = estudianteRepository;
+            ClaseEstudiantes =new ObservableCollection<ClaseEstudiante>();
             CrearClaseEstudianteCommand = new Command(async () => await CrearClaseEstudiante());
             EliminarClaseEstudianteCommand = new AsyncRelayCommand<int>(EliminarClaseEstudiante);
             ActualizarClaseEstudianteCommand = new AsyncRelayCommand<int>(ActualizarClaseEstudiante);
             GuardarClaseEstudianteCommand = new AsyncRelayCommand(GuardarCambios);
-
+            
         }
         public ClaseEstudianteViewModel()
         {
@@ -75,13 +96,18 @@ namespace CCVProyecto2v2.ViewModels
         {
             try
             {
+                if (SelectedClase == null || SelectedEstudiante == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Debe seleccionar una clase y un estudiante.", "OK");
+                    return;
+                }
                 var nuevaClaseEstudiante = new ClaseEstudiante
                 {
                     Id = 0,
-                    ClaseId=ClaseId,
-                    EstudianteId=EstudianteId,
-                    ClaseNombre=ClaseNombre,
-                    EstudianteNombre=EstudianteNombre
+                    ClaseId=SelectedClase.Id,
+                    EstudianteId=SelectedEstudiante.Id,
+                    ClaseNombre=SelectedClase.Nombre,
+                    EstudianteNombre=SelectedEstudiante.Nombre
                 };
                 var resultado=await _claseEstudianteRepository.CrearClaseEstudiante(nuevaClaseEstudiante);
                 if (resultado)
@@ -134,8 +160,8 @@ namespace CCVProyecto2v2.ViewModels
                     Id= claseEstudianteSeleccionada.Id;
                     ClaseId = claseEstudianteSeleccionada.ClaseId;
                     EstudianteId = claseEstudianteSeleccionada.EstudianteId;
-                    EstudianteNombre = claseEstudianteSeleccionada.EstudianteNombre;
-                    ClaseNombre = claseEstudianteSeleccionada.ClaseNombre;
+                    //EstudianteNombre = claseEstudianteSeleccionada.EstudianteNombre;
+                    //ClaseNombre = claseEstudianteSeleccionada.ClaseNombre;
                     await Application.Current.MainPage.Navigation.PushAsync(new EditarClaseEstudianteView
                     {
                         BindingContext = this
@@ -194,6 +220,14 @@ namespace CCVProyecto2v2.ViewModels
                 var resultado = await _claseEstudianteRepository.ActualizarClaseEstudiante(Id, claseEstudianteActualizada);
                 if (resultado)
                 {
+                    var claseEstudianteExistente = ClaseEstudiantes.FirstOrDefault(c => c.Id == Id);
+                    if(claseEstudianteExistente != null)
+                    {
+                        claseEstudianteExistente.ClaseId = ClaseId;
+                        claseEstudianteExistente.EstudianteId = EstudianteId;
+                        claseEstudianteExistente.ClaseNombre = ClaseNombre;
+                        claseEstudianteExistente.EstudianteNombre = EstudianteNombre;
+                    }
                     await Application.Current.MainPage.DisplayAlert("Actualizado", "ClaseEstudiante actualizada exitosamente", "Ok");
                     await Application.Current.MainPage.Navigation.PushAsync(new VerClaseEstudianteView());
                     await GetClaseEstudiantes();
@@ -208,6 +242,31 @@ namespace CCVProyecto2v2.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Error", $"Error: {ex.Message}", "OK");
             }
         }
+        public async Task CargarDatosPickers()
+        {
+            try
+            {
+                var clases = await _claseRepository.GetClases();
+                Clases.Clear();
+                foreach (var clase in clases)
+                {
+                    Clases.Add(clase);
+                }
+                var estudiantes = await _estudianteRepository.GetEstudiantes();
+                Estudiantes.Clear();
+                foreach (var estudiante in estudiantes)
+                {
+                    Estudiantes.Add(estudiante);
+                }
+                OnPropertyChanged(nameof(Clases));
+                OnPropertyChanged(nameof(Estudiantes));
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", $"Error: {ex.Message}", "OK");
+            }
+        }
+
 
 
         public event PropertyChangedEventHandler? PropertyChanged;

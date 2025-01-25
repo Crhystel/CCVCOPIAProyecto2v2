@@ -9,7 +9,11 @@ public partial class AgregarClaseEstudianteView : ContentPage
     public AgregarClaseEstudianteView()
 	{
 		InitializeComponent();
-        _viewModel = new ClaseEstudianteViewModel(new ClaseEstudianteRepository(new HttpClient()));
+        _viewModel = new ClaseEstudianteViewModel(
+        new ClaseEstudianteRepository(new HttpClient()),
+        new ClaseRepository(new HttpClient()),
+        new EstudianteRepository(new HttpClient()));
         BindingContext = _viewModel;
+        _viewModel.CargarDatosPickers();
     }
 }
