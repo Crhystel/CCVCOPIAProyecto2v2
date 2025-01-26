@@ -33,6 +33,7 @@
 
             <Entry Placeholder="Cédula"
                    Text="{Binding Cedula}" 
+                   Keyboard="Numeric"
                    HorizontalOptions="FillAndExpand"
                    TextColor="Black" />
             <Label Text="Nombre de Usuario:"
