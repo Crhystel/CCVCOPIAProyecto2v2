@@ -1,13 +1,16 @@
 using CCVProyecto2v2.Models;
 using CCVProyecto2v2.ViewsGeneral;
+using CCVProyecto2v2.Services;
 
 namespace CCVProyecto2v2.ViewLogin;
 
 public partial class LoginView : ContentPage
 {
+    private readonly AuthService _authService;
     public LoginView()
     {
         InitializeComponent();
+        _authService = new AuthService(); 
     }
     /*private async void Ingresar_Clicked(object sender, EventArgs e)
     {
@@ -61,7 +64,7 @@ public partial class LoginView : ContentPage
 
     private async void Ingresar_Clicked(object sender, EventArgs e)
     {
-        string usuario = UsuarioEntry.Text;
+        /*string usuario = UsuarioEntry.Text;
         string contrasenia = ContraseniaEntry.Text;
 
         // Verificar credenciales quemadas
@@ -80,7 +83,42 @@ public partial class LoginView : ContentPage
         else
         {
             await DisplayAlert("Error", "Usuario o contraseña incorrectos", "OK");
+        }*/
+        string username = UsuarioEntry.Text;
+        string password = ContraseniaEntry.Text;
+
+        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+        {
+            await DisplayAlert("Error", "Por favor, complete todos los campos.", "OK");
+            return;
+        }
+
+        bool isAuthenticated = await _authService.LoginAsync(username, password);
+        if (isAuthenticated)
+        {
+           
+            string userRole = await SecureStorage.GetAsync("userRole");
+            switch (userRole)
+            {
+                
+                case "Administrador":
+                    await Navigation.PushAsync(new AdministradorView());
+                   break;
+                case "Estudiante":
+                    await Navigation.PushAsync(new ProfesorView());
+                    break;
+                case "Profesor":
+                    await Navigation.PushAsync(new EstudianteView());
+                    break;
+                default:
+                    await DisplayAlert("Error", "Rol de usuario no válido.", "OK");
+                    break;
+            }
+        }
+        else
+        {
+            await DisplayAlert("Error", "Nombre de usuario o contraseña incorrectos.", "OK");
+
         }
     }
-
 }
