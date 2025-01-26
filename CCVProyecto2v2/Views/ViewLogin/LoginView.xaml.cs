@@ -1,15 +1,16 @@
 using CCVProyecto2v2.Models;
 using CCVProyecto2v2.ViewsGeneral;
+using CCVProyecto2v2.Services;
 
 namespace CCVProyecto2v2.ViewLogin;
 
 public partial class LoginView : ContentPage
 {
-    readonly ILoginRepository _loginRepository = new LoginService();
-
+    private readonly AuthService _authService;
     public LoginView()
     {
         InitializeComponent();
+        _authService = new AuthService(); 
     }
     /*private async void Ingresar_Clicked(object sender, EventArgs e)
     {
@@ -83,41 +84,41 @@ public partial class LoginView : ContentPage
         {
             await DisplayAlert("Error", "Usuario o contraseña incorrectos", "OK");
         }*/
-        string usuario = UsuarioEntry.Text;
-        string contrasenia = ContraseniaEntry.Text;
+        string username = UsuarioEntry.Text;
+        string password = ContraseniaEntry.Text;
 
-        if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(contrasenia))
+        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
         {
-            await DisplayAlert("Advertencia", "Por favor ingresar usuario y contraseña", "Ok");
+            await DisplayAlert("Error", "Por favor, complete todos los campos.", "OK");
             return;
         }
 
-
-        Usuario userInfo = await _loginRepository.Login(usuario, contrasenia);
-
-        if (userInfo != null)
+        bool isAuthenticated = await _authService.LoginAsync(username, password);
+        if (isAuthenticated)
         {
+           
+            string userRole = await SecureStorage.GetAsync("userRole");
 
-            switch (userInfo.RolUsuario)
+            // Navegar a la página correspondiente según el rol
+            switch (userRole)
             {
-                case 1:
+                case "0":
                     await Navigation.PushAsync(new AdministradorView());
                     break;
-                case 2:
+                case "1":
                     await Navigation.PushAsync(new ProfesorView());
                     break;
-                case 3:
+                case "2":
                     await Navigation.PushAsync(new EstudianteView());
                     break;
                 default:
-                    await DisplayAlert("Advertencia", "Rol no reconocido", "Ok");
+                    await DisplayAlert("Error", "Rol de usuario no válido.", "OK");
                     break;
             }
         }
         else
         {
-            await DisplayAlert("Advertencia", "El usuario o contraseña son incorrectos", "Ok");
+            await DisplayAlert("Error", "Nombre de usuario o contraseña incorrectos.", "OK");
         }
     }
-
 }
