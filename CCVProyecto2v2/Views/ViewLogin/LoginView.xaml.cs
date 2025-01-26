@@ -105,10 +105,10 @@ public partial class LoginView : ContentPage
                     await Navigation.PushAsync(new AdministradorView());
                    break;
                 case "Estudiante":
-                    await Navigation.PushAsync(new ProfesorView());
+                    await Navigation.PushAsync(new EstudianteView());
                     break;
                 case "Profesor":
-                    await Navigation.PushAsync(new EstudianteView());
+                    await Navigation.PushAsync(new ProfesorView());
                     break;
                 default:
                     await DisplayAlert("Error", "Rol de usuario no válido.", "OK");
