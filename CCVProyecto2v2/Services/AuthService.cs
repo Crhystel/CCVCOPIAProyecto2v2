@@ -18,30 +18,26 @@ namespace CCVProyecto2v2.Services
         }
         public async Task<bool> LoginAsync(string nombreUsuario, string contrasenia)
         {
-            var loginData = new
-            {
-                nombreUsuario = nombreUsuario,
-                contrasenia = contrasenia
-            };
-
-            var jsonContent = JsonConvert.SerializeObject(loginData);
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
             try
             {
-                var response = await _httpClient.PostAsync("'http://localhost:5057/api/Login", content);
+                var url = $"http://localhost:5057/api/Login?nombreUsuario={Uri.EscapeDataString(nombreUsuario)}&contrasenia={Uri.EscapeDataString(contrasenia)}";
+                var response = await _httpClient.PostAsync(url, null);
+
                 if (response.IsSuccessStatusCode)
                 {
-                    // Leer los datos del usuario desde la respuesta
                     var userJson = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine($"Respuesta exitosa: {userJson}");
+
                     var usuario = JsonConvert.DeserializeObject<Usuario>(userJson);
-                    SecureStorage.SetAsync("userId", usuario.Id.ToString());
-                    SecureStorage.SetAsync("userRole", usuario.Rol.ToString());
+                    await SecureStorage.SetAsync("userId", usuario.Id.ToString());
+                    await SecureStorage.SetAsync("userRole", usuario.Rol.ToString());
 
                     return true;
                 }
                 else
                 {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine($"Error en la respuesta: {response.StatusCode} - {errorContent}");
                     return false;
                 }
             }

@@ -97,14 +97,12 @@ public partial class LoginView : ContentPage
         if (isAuthenticated)
         {
            
-            string userRole = await SecureStorage.GetAsync("userRole");
-
-            // Navegar a la página correspondiente según el rol
+            /*string userRole = await SecureStorage.GetAsync("userRole");
             switch (userRole)
             {
-                case "0":
+                case "0":*/
                     await Navigation.PushAsync(new AdministradorView());
-                    break;
+                   /* break;
                 case "1":
                     await Navigation.PushAsync(new ProfesorView());
                     break;
@@ -114,7 +112,7 @@ public partial class LoginView : ContentPage
                 default:
                     await DisplayAlert("Error", "Rol de usuario no válido.", "OK");
                     break;
-            }
+            }*/
         }
         else
         {
