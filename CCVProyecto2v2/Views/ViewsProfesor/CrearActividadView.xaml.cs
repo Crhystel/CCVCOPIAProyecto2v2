@@ -16,26 +16,20 @@ public partial class CrearActividadView : ContentPage
             Titulo = editorNombre.Text,
             Descripcion = editorDescripción.Text,
             FechaCreacion = FechaInicio.Date,
-            FechaEntrega = FechaEntrega.Date
+            FechaEntrega = FechaEntrega.Date,
+            // Rellenar IDs si es necesario
         };
 
-        string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ACTIVIDADES.txt");
+        var actividadService = new Services.ActividadService();
 
-        try
+        if (await actividadService.CrearActividadAsync(actividad))
         {
-            // Serializar y guardar la actividad en formato JSON
-            var actividades = File.Exists(path)
-                ? JsonConvert.DeserializeObject<List<Models.Actividad>>(File.ReadAllText(path)) ?? new List<Models.Actividad>()
-                : new List<Models.Actividad>();
-
-            actividades.Add(actividad);
-            File.WriteAllText(path, JsonConvert.SerializeObject(actividades));
-
-            await DisplayAlert("Éxito", "Actividad guardada correctamente", "OK");
+            await DisplayAlert("Éxito", "Actividad creada correctamente", "OK");
         }
-        catch (Exception ex)
+        else
         {
-            await DisplayAlert("Error", $"No se pudo guardar la actividad: {ex.Message}", "OK");
+            await DisplayAlert("Error", "No se pudo crear la actividad.", "OK");
         }
     }
+
 }
