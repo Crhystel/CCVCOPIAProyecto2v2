@@ -29,8 +29,9 @@ namespace CCVProyecto2v2.Services
                     Console.WriteLine($"Respuesta exitosa: {userJson}");
 
                     var usuario = JsonConvert.DeserializeObject<Usuario>(userJson);
-                    await SecureStorage.SetAsync("userId", usuario.Id.ToString());
+                    
                     await SecureStorage.SetAsync("userRole", usuario.Rol.ToString());
+                    Console.WriteLine($"Rol del usuario: {usuario.Rol}");
 
                     return true;
                 }

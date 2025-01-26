@@ -97,26 +97,28 @@ public partial class LoginView : ContentPage
         if (isAuthenticated)
         {
            
-            /*string userRole = await SecureStorage.GetAsync("userRole");
+            string userRole = await SecureStorage.GetAsync("userRole");
             switch (userRole)
             {
-                case "0":*/
+                
+                case "Administrador":
                     await Navigation.PushAsync(new AdministradorView());
-                   /* break;
-                case "1":
+                   break;
+                case "Estudiante":
                     await Navigation.PushAsync(new ProfesorView());
                     break;
-                case "2":
+                case "Profesor":
                     await Navigation.PushAsync(new EstudianteView());
                     break;
                 default:
                     await DisplayAlert("Error", "Rol de usuario no válido.", "OK");
                     break;
-            }*/
+            }
         }
         else
         {
             await DisplayAlert("Error", "Nombre de usuario o contraseña incorrectos.", "OK");
+
         }
     }
 }
