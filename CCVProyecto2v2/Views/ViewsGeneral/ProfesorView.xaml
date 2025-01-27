@@ -21,40 +21,41 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid Padding="10" Margin="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
                             <Frame BackgroundColor="Transparent" 
                                    BorderColor="Black" 
                                    CornerRadius="0" 
                                    Padding="10" 
                                    HasShadow="False">
-                                <VerticalStackLayout Grid.Column="0" BackgroundColor="Transparent">
-                                    <Label Text="{Binding Titulo}" 
-                                           FontSize="18" 
-                                           FontAttributes="Bold" 
-                                           TextColor="Black" />
-                                    <Label Text="{Binding Descripcion}" 
-                                           FontSize="14" 
-                                           TextColor="Gray" />
-                                    <Label Text="{Binding FechaEntrega, StringFormat='Fecha de Entrega: {0:dd/MM/yyyy}'}" 
-                                           FontSize="12" 
-                                           TextColor="#444" />
-                                </VerticalStackLayout>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <VerticalStackLayout Grid.Column="0" BackgroundColor="Transparent">
+                                        <Label Text="{Binding Titulo}" 
+                                               FontSize="18" 
+                                               FontAttributes="Bold" 
+                                               TextColor="Black" />
+                                        <Label Text="{Binding Descripcion}" 
+                                               FontSize="14" 
+                                               TextColor="Gray" />
+                                        <Label Text="{Binding FechaEntrega, StringFormat='Fecha de Entrega: {0:dd/MM/yyyy}'}" 
+                                               FontSize="12" 
+                                               TextColor="#444" />
+                                    </VerticalStackLayout>
+                                    <Button Text="Eliminar" 
+                                            BackgroundColor="Black" 
+                                            TextColor="White" 
+                                            Clicked="EliminarActividad_Clicked" 
+                                            CommandParameter="{Binding Id}" 
+                                            WidthRequest="100" 
+                                            HeightRequest="40"
+                                            Margin="10,0,0,0"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="End"
+                                            Grid.Column="1" />
+                                </Grid>
                             </Frame>
-                            <StackLayout Grid.Column="1" Orientation="Horizontal"  >
-
-                                
-                                <Button Text="Eliminar" 
-                                        BackgroundColor="Black" 
-                                        TextColor="White" 
-                                        Clicked="EliminarActividad_Clicked" 
-                                        CommandParameter="{Binding Id}" 
-                                        WidthRequest="100" 
-                                        HeightRequest="40"
-                                        Margin="10"/>
-                            </StackLayout>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -63,3 +64,5 @@
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
+
+
