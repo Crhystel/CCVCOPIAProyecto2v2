@@ -36,7 +36,7 @@ public partial class CrearActividadView : ContentPage
             };
 
             var actividadService = new Services.ActividadService();
-            if (await actividadService.CrearActividadAsync(actividad))
+            if (await actividadService.CrearActividadAsync(actividad, claseSeleccionada.Id))
             {
                 await DisplayAlert("Éxito", "Actividad creada correctamente", "OK");
             }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using CCVProyecto2v2.Models;
 
 namespace CCVProyecto2v2.Services
 {
@@ -16,18 +17,22 @@ namespace CCVProyecto2v2.Services
             _httpClient = new HttpClient();
         }
 
-        public async Task<bool> CrearActividadAsync(Models.Actividad actividad)
+        public async Task<bool> CrearActividadAsync(Models.Actividad actividad, int claseId)
         {
             try
             {
-                var url = "http://localhost:5057/api/Actividades";
+                var url = $"http://localhost:5057/api/Actividades?claseId={claseId}";
                 var json = JsonConvert.SerializeObject(actividad);
+                Console.WriteLine($"Request URL: {url}");
+                Console.WriteLine($"Request Body: {json}");
+
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync(url, content);
 
                 // Registrar detalles de la respuesta
                 var responseBody = await response.Content.ReadAsStringAsync();
-                Console.WriteLine($"Status Code: {response.StatusCode}, Response: {responseBody}");
+                Console.WriteLine($"Response Status Code: {response.StatusCode}");
+                Console.WriteLine($"Response Body: {responseBody}");
 
                 return response.IsSuccessStatusCode;
             }
@@ -37,6 +42,7 @@ namespace CCVProyecto2v2.Services
                 return false;
             }
         }
+
 
 
 
