@@ -15,6 +15,8 @@
         BackgroundColor="Black"
         TextColor="White"
         Clicked="butonAgregar_Clicked" />
+            <Entry Placeholder="Buscar...."
+                   Text="{Binding FiltroResultados, Mode=TwoWay}"/>
 
             <Label Text="Lista de Clases y Estudiantes" FontSize="24" HorizontalOptions="Center" />
 
@@ -32,14 +34,14 @@
                             <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*,Auto">
 
                                 <Label Grid.Row="0" Grid.Column="0"
-                                       Text="Clase: "
+                                       Text="Id clase:"
                                        FontAttributes="Bold" 
                                        TextColor="Black" />
                                 <Label Grid.Row="0" Grid.Column="1"
                                        Text="{Binding ClaseNombre}" 
                                        TextColor="Black" />
                                 <Label Grid.Row="1" Grid.Column="0"
-                                       Text="Estudiante unido:"
+                                       Text="Id estudiante:"
                                        FontAttributes="Bold" 
                                        TextColor="Black" />
                                 <Label Grid.Row="1" Grid.Column="1"

@@ -28,6 +28,7 @@ namespace CCVProyecto2v2.ViewModels
         public ICommand EliminarClaseEstudianteCommand { get; }
         public ICommand ActualizarClaseEstudianteCommand { get; }
         public ICommand GuardarClaseEstudianteCommand { get; }
+        public ICommand FiltrarResultadosCommand { get; }
 
         private int _id;
         private int _claseId;
@@ -36,6 +37,7 @@ namespace CCVProyecto2v2.ViewModels
         private string _claseNombre;
         private Clase _selectedClase;
         private Estudiante _selectedEstudiante;
+        private string _filtroResultados;
 
         public int Id
         {
@@ -89,6 +91,16 @@ namespace CCVProyecto2v2.ViewModels
                 }
             }
         }
+        public string FiltroResultados
+        {
+            get => _filtroResultados;
+            set
+            {
+                _filtroResultados = value;
+                OnPropertyChanged();
+                FiltrarResultados();
+            }
+        }
 
         public ClaseEstudianteViewModel(ClaseEstudianteRepository claseEstudianteRepository,
             ClaseRepository claseRepository,
@@ -102,6 +114,7 @@ namespace CCVProyecto2v2.ViewModels
             EliminarClaseEstudianteCommand = new AsyncRelayCommand<int>(EliminarClaseEstudiante);
             ActualizarClaseEstudianteCommand = new AsyncRelayCommand<int>(ActualizarClaseEstudiante);
             GuardarClaseEstudianteCommand = new AsyncRelayCommand(GuardarCambios);
+            FiltrarResultadosCommand = new Command(FiltrarResultados);
             
         }
         public ClaseEstudianteViewModel()
@@ -286,7 +299,27 @@ namespace CCVProyecto2v2.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Error", $"Error: {ex.Message}", "OK");
             }
         }
+        private void FiltrarResultados()
+        {
+            if (string.IsNullOrWhiteSpace(FiltroResultados))
+            {
+                GetClaseEstudiantes().ConfigureAwait(false);
+            }
+            else
+            {
+                var resultadosFiltrados = ClaseEstudiantes
+            .Where(ce => (ce.EstudianteNombre?.Contains(FiltroResultados, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                         (ce.ClaseNombre?.Contains(FiltroResultados, StringComparison.OrdinalIgnoreCase) ?? false))
+            .ToList();
 
+                ClaseEstudiantes.Clear();
+                foreach (var item in resultadosFiltrados)
+                {
+                    ClaseEstudiantes.Add(item);
+                }
+            }
+
+        }
 
 
         public event PropertyChangedEventHandler? PropertyChanged;
