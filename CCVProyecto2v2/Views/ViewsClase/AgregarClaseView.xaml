@@ -5,7 +5,7 @@
     <ScrollView>
         <StackLayout Padding="20" Spacing="15">
 
-            <Label Text="Agregar Estudiante" 
+            <Label Text="Clase" 
            FontSize="24" 
            HorizontalOptions="Center" 
            TextColor="Black" />
@@ -17,7 +17,7 @@
            TextColor="Black" 
            PlaceholderColor="Gray" />
             
-            <Button Text="Agregar Estudiante" 
+            <Button Text="Agregar Clase" 
             Command="{Binding CrearClaseCommand}" 
             BackgroundColor="Black" 
             TextColor="White" 

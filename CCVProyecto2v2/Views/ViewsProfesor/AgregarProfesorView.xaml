@@ -2,11 +2,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CCVProyecto2v2.Views.ViewsProfesor.AgregarProfesorView"
-             Title="AgregarProfesorView">
+             >
     <ScrollView>
         <StackLayout Padding="20" Spacing="15">
 
-            <Label Text="Agregar Profesor" 
+            <Label Text="Profesor" 
            FontSize="24" 
            HorizontalOptions="Center" 
            TextColor="Black" />
@@ -57,7 +57,7 @@
             TextColor="Black"
             BackgroundColor="White" />
 
-            <Button Text="Agregar Estudiante" 
+            <Button Text="Agregar Profesor" 
             Command="{Binding CrearProfesorCommand}" 
             BackgroundColor="Black" 
             TextColor="White" 
