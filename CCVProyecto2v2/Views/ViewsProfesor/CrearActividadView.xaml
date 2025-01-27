@@ -74,7 +74,6 @@
                              HorizontalOptions="Center"/>
                 </VerticalStackLayout>
             </Grid>
-            <Button Text="AGREGAR ARCHIVO" BackgroundColor="Black" TextColor="White" Margin="30,10,30,20"/>
             <Button Text="Guardar" BackgroundColor="Black" TextColor="White" Clicked="OnGuardarClicked" Margin="30,0,30,10"/>
         </VerticalStackLayout>
     </ScrollView>

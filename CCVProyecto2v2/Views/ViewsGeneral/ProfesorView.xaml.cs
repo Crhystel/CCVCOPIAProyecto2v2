@@ -1,3 +1,4 @@
+using CCVProyecto2v2.Services;
 using CCVProyecto2v2.ViewsProfesor;
 using Newtonsoft.Json;
 
@@ -14,16 +15,20 @@ public partial class ProfesorView : ContentPage
     {
         Navigation.PushAsync(new CrearActividadView());
     }
-    private void CargarActividades()
+    private async void CargarActividades()
     {
-        string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "actividades.txt");
-
-        if (File.Exists(path))
+        try
         {
-            var actividades = JsonConvert.DeserializeObject<List<Models.Actividad>>(File.ReadAllText(path)) ?? new List<Models.Actividad>();
+            var actividadService = new ActividadService();
+            var actividades = await actividadService.ObtenerActividadesAsync();
             ActividadesCollection.ItemsSource = actividades;
         }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", $"No se pudo cargar las actividades: {ex.Message}", "OK");
+        }
     }
+
 
     private void EliminarActividad_Clicked(object sender, EventArgs e)
     {
