@@ -30,100 +30,71 @@ public partial class ProfesorView : ContentPage
     }
 
 
-    private void EliminarActividad_Clicked(object sender, EventArgs e)
+    private async void EliminarActividad_Clicked(object sender, EventArgs e)
     {
         var button = sender as Button;
         if (button != null && button.CommandParameter is int actividadId)
         {
-            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ACTIVIDADES.txt");
-
-            if (File.Exists(path))
+            try
             {
-                try
+                var confirmacion = await DisplayAlert("Confirmar", "¿Deseas eliminar esta actividad?", "Sí", "No");
+                if (confirmacion)
                 {
-                   
-                    var actividades = JsonConvert.DeserializeObject<List<Models.Actividad>>(File.ReadAllText(path)) ?? new List<Models.Actividad>();
-
-                    
-                    var actividadEliminar = actividades.FirstOrDefault(a => a.Id == actividadId);
-                    if (actividadEliminar != null)
+                    var actividadService = new ActividadService();
+                    var resultado = await actividadService.EliminarActividadAsync(actividadId);
+                    if (resultado)
                     {
-                        actividades.Remove(actividadEliminar);
-
-                        
-                        File.WriteAllText(path, JsonConvert.SerializeObject(actividades));
-
-                        
-                        CargarActividades();
-
-                        DisplayAlert("Éxito", "Actividad eliminada correctamente", "OK");
+                        await DisplayAlert("Éxito", "Actividad eliminada correctamente", "OK");
+                        CargarActividades(); // Refrescar lista
                     }
                     else
                     {
-                        DisplayAlert("Error", "No se encontró la actividad", "OK");
+                        await DisplayAlert("Error", "No se pudo eliminar la actividad", "OK");
                     }
                 }
-                catch (Exception ex)
-                {
-                    DisplayAlert("Error", $"No se pudo eliminar la actividad: {ex.Message}", "OK");
-                }
             }
-            else
+            catch (Exception ex)
             {
-                DisplayAlert("Error", "El archivo de actividades no existe", "OK");
+                await DisplayAlert("Error", $"Error: {ex.Message}", "OK");
             }
-
         }
     }
 
-    private async void EditarActividad_Clicked(object sender, EventArgs e)
+
+    /*private async void EditarActividad_Clicked(object sender, EventArgs e)
     {
         var button = sender as Button;
-        if (button != null && button.CommandParameter is int actividadId)
+        if (button != null && button.CommandParameter is Models.Actividad actividad)
         {
-            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ACTIVIDADES.txt");
-
-            if (File.Exists(path))
+            try
             {
-                try
+                var nuevoTitulo = await DisplayPromptAsync("Editar Actividad", "Nuevo título:", initialValue: actividad.Titulo);
+                var nuevaDescripcion = await DisplayPromptAsync("Editar Actividad", "Nueva descripción:", initialValue: actividad.Descripcion);
+
+                if (!string.IsNullOrWhiteSpace(nuevoTitulo) && !string.IsNullOrWhiteSpace(nuevaDescripcion))
                 {
-                    
-                    var actividades = JsonConvert.DeserializeObject<List<Models.Actividad>>(File.ReadAllText(path)) ?? new List<Models.Actividad>();
-                    var actividadEditar = actividades.FirstOrDefault(a => a.Id == actividadId);
+                    actividad.Titulo = nuevoTitulo;
+                    actividad.Descripcion = nuevaDescripcion;
 
-                    if (actividadEditar != null)
+                    var actividadService = new ActividadService();
+                    var resultado = await actividadService.EditarActividadAsync(actividad);
+                    if (resultado)
                     {
-                        
-                        string nuevoTitulo = await DisplayPromptAsync("Editar Actividad", "Nuevo Título:", initialValue: actividadEditar.Titulo);
-                        string nuevaDescripcion = await DisplayPromptAsync("Editar Actividad", "Nueva Descripción:", initialValue: actividadEditar.Descripcion);
-
-                        if (!string.IsNullOrWhiteSpace(nuevoTitulo) && !string.IsNullOrWhiteSpace(nuevaDescripcion))
-                        {
-                            actividadEditar.Titulo = nuevoTitulo;
-                            actividadEditar.Descripcion = nuevaDescripcion;
-
-                            
-                            File.WriteAllText(path, JsonConvert.SerializeObject(actividades));
-                            CargarActividades();
-
-                            await DisplayAlert("Éxito", "Actividad editada correctamente", "OK");
-                        }
+                        await DisplayAlert("Éxito", "Actividad editada correctamente", "OK");
+                        CargarActividades(); // Refrescar lista
                     }
                     else
                     {
-                        await DisplayAlert("Error", "No se encontró la actividad", "OK");
+                        await DisplayAlert("Error", "No se pudo editar la actividad", "OK");
                     }
                 }
-                catch (Exception ex)
-                {
-                    await DisplayAlert("Error", $"No se pudo editar la actividad: {ex.Message}", "OK");
-                }
             }
-            else
+            catch (Exception ex)
             {
-                await DisplayAlert("Error", "El archivo de actividades no existe", "OK");
+                await DisplayAlert("Error", $"Error: {ex.Message}", "OK");
             }
         }
-    }
+    }*/
+
 
 }

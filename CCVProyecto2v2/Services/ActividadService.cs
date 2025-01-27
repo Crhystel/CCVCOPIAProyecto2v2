@@ -88,6 +88,37 @@ namespace CCVProyecto2v2.Services
             }
         }
 
+        public async Task<bool> EliminarActividadAsync(int actividadId)
+        {
+            try
+            {
+                var url = $"http://localhost:5057/api/Actividades/{actividadId}";
+                var response = await _httpClient.DeleteAsync(url);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error eliminando actividad: {ex.Message}");
+                return false;
+            }
+        }
+
+        /*public async Task<bool> EditarActividadAsync(Models.Actividad actividad)
+        {
+            try
+            {
+                var url = $"http://localhost:5057/api/Actividades";
+                var json = JsonConvert.SerializeObject(actividad);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PutAsync(url, content);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error editando actividad: {ex.Message}");
+                return false;
+            }
+        }*/
 
     }
 }

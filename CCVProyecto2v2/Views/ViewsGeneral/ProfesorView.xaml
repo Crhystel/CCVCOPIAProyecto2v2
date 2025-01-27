@@ -44,14 +44,8 @@
                                 </VerticalStackLayout>
                             </Frame>
                             <StackLayout Grid.Column="1" Orientation="Horizontal"  >
-                                <Button Text="Editar" 
-                                        BackgroundColor="Black" 
-                                        TextColor="White" 
-                                        Clicked="EditarActividad_Clicked" 
-                                        CommandParameter="{Binding Id}"
-                                        WidthRequest="100" 
-                                        HeightRequest="40"
-                                        Margin="20"/>
+
+                                
                                 <Button Text="Eliminar" 
                                         BackgroundColor="Black" 
                                         TextColor="White" 
