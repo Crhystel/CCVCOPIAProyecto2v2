@@ -28,7 +28,6 @@ namespace CCVProyecto2v2.ViewModels
         public ICommand EliminarClaseEstudianteCommand { get; }
         public ICommand ActualizarClaseEstudianteCommand { get; }
         public ICommand GuardarClaseEstudianteCommand { get; }
-        public ICommand FiltrarResultadosCommand { get; }
 
         private int _id;
         private int _claseId;
@@ -114,8 +113,6 @@ namespace CCVProyecto2v2.ViewModels
             EliminarClaseEstudianteCommand = new AsyncRelayCommand<int>(EliminarClaseEstudiante);
             ActualizarClaseEstudianteCommand = new AsyncRelayCommand<int>(ActualizarClaseEstudiante);
             GuardarClaseEstudianteCommand = new AsyncRelayCommand(GuardarCambios);
-            FiltrarResultadosCommand = new Command(FiltrarResultados);
-            
         }
         public ClaseEstudianteViewModel()
         {
@@ -307,15 +304,17 @@ namespace CCVProyecto2v2.ViewModels
             }
             else
             {
+                string terminoBusqueda = string.IsNullOrWhiteSpace(FiltroResultados)
+                    ? string.Empty
+                    : System.Text.RegularExpressions.Regex.Replace(FiltroResultados.Trim(), @"\s+", " ");
                 var resultadosFiltrados = ClaseEstudiantes
-            .Where(ce => (ce.EstudianteNombre?.Contains(FiltroResultados, StringComparison.OrdinalIgnoreCase) ?? false) ||
-                         (ce.ClaseNombre?.Contains(FiltroResultados, StringComparison.OrdinalIgnoreCase) ?? false))
-            .ToList();
+                    .Where(c => !string.IsNullOrEmpty(c.ClaseNombre) && System.Text.RegularExpressions.Regex.Replace(c.ClaseNombre.Trim(), @"\s+", "")
+                    .Contains(terminoBusqueda, StringComparison.OrdinalIgnoreCase)).ToList();
 
                 ClaseEstudiantes.Clear();
-                foreach (var item in resultadosFiltrados)
+                foreach (var resultado in resultadosFiltrados)
                 {
-                    ClaseEstudiantes.Add(item);
+                    ClaseEstudiantes.Add(resultado);
                 }
             }
 

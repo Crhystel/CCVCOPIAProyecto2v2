@@ -37,6 +37,7 @@ namespace CCVProyecto2v2.ViewModels
         private string _claseNombre;
         private Clase _selectedClase;
         private Profesor _selectedProfesor;
+        public string _filtroResultados;
 
         public int Id
         {
@@ -88,6 +89,16 @@ namespace CCVProyecto2v2.ViewModels
                     ProfesorId = _selectedProfesor?.Id ?? 0;
                     OnPropertyChanged();
                 }
+            }
+        }
+        public string FiltroResultados
+        {
+            get => _filtroResultados;
+            set
+            {
+                _filtroResultados = value;
+                OnPropertyChanged();
+                FiltrarResultados();
             }
         }
         public ClaseProfesorViewModel(ClaseProfesorRepository claseProfesorRepository,
@@ -284,6 +295,28 @@ namespace CCVProyecto2v2.ViewModels
             catch (Exception ex)
             {
                 await Application.Current.MainPage.DisplayAlert("Error", $"Error: {ex.Message}", "OK");
+            }
+        }
+        private void FiltrarResultados()
+        {
+            if (string.IsNullOrWhiteSpace(FiltroResultados))
+            {
+                GetClaseProfesores().ConfigureAwait(false);
+            }
+            else
+            {
+                string terminoBusqueda = string.IsNullOrWhiteSpace(FiltroResultados)
+                     ? string.Empty
+                     : System.Text.RegularExpressions.Regex.Replace(FiltroResultados.Trim(), @"\s+", " ");
+                var resultadosFiltrados = ClaseProfesores
+                    .Where(c => !string.IsNullOrEmpty(c.ClaseNombre) && System.Text.RegularExpressions.Regex.Replace(c.ClaseNombre.Trim(), @"\s+", "")
+                    .Contains(terminoBusqueda, StringComparison.OrdinalIgnoreCase)).ToList();
+
+                ClaseProfesores.Clear();
+                foreach (var resultado in resultadosFiltrados)
+                {
+                    ClaseProfesores.Add(resultado);
+                }
             }
         }
 

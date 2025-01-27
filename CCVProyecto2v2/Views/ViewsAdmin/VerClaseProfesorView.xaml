@@ -11,10 +11,12 @@
         <StackLayout Padding="10" Spacing="15">
 
             <Button x:Name="butonAgregar"
-                 Text="Unir Profesor a Clase"
-                 BackgroundColor="Black"
-                 TextColor="White"
-                 Clicked="butonAgregar_Clicked" />
+                     Text="Unir Profesor a Clase"
+                     BackgroundColor="Black"
+                     TextColor="White"
+                     Clicked="butonAgregar_Clicked" />
+            <Entry Placeholder="Buscar...."
+                   Text="{Binding FiltroResultados, Mode=TwoWay}"/>
 
             <Label Text="Lista de Clases y Profesores" FontSize="24" HorizontalOptions="Center" />
 
