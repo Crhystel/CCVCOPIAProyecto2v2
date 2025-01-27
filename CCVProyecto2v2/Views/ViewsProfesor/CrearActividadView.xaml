@@ -12,6 +12,14 @@
                 HorizontalTextAlignment="Center"
                 TextColor="#444444"
                 Margin="0,10" />
+            <Label Text="Seleccionar Clase" 
+       FontFamily="TheStudentsTeacherFont" 
+       FontSize="20" 
+       HorizontalTextAlignment="Start" 
+       Margin="20,5,10,20" />
+            <Picker x:Name="clasePicker" Title="Seleccione una clase" 
+        ItemDisplayBinding="{Binding Nombre}" 
+        Margin="30,0,30,10" />
             <Label Text="NOMBRE ACTIVIDAD"
                 FontFamily="TheStudentsTeacherFont"
                 FontSize="20"
